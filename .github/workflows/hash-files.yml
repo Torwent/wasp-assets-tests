@@ -47,16 +47,14 @@ jobs:
           cd ./wasp-data
           git config --global user.name "Wasp Bot"
           git config --global user.email "waspbot@waspcripts.com"
-          if [[ -n "$(git status --porcelain finders/items/data/hash.txt jsons/gear.json '*.hash')" ]]; then
-            git add finders/items/data/hash.txt
-            git add jsons/gear.json
-            git add '*.hash'
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git add -A
             CURRENT_DATE=$(date +'%Y.%m.%d')
             COMMIT_HASH=$(git rev-parse --short HEAD)
             git commit -m "Automatic version bump to $CURRENT_DATE-$COMMIT_HASH"
             git push
           else
-            echo "No hash changes to commit."
+            echo "No changes to commit."
           fi
           
           
