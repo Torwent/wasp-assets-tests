@@ -1,13 +1,35 @@
-name: Update Files
+name: Update Items
 
 on:
-  push:
-    branches:
-      - main
+  workflow_run:
+    workflows: ["Update Hashes"]
+    types:
+      - completed
 
 jobs:
-  hash-files:
+  check-items:
     if: ${{ github.repository_owner == 'WaspScripts' }}
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.file_check.outputs.changed }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check if item files changed
+        id: file_check
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^finders/items/data/item.txt$'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+  process-items:
+    if: ${{ github.repository_owner == 'WaspScripts' && needs.check-items.outputs.changed == 'true'}}
+    needs: check-items
     runs-on: windows-latest
     steps:          
       - name: Fetch Simba 2 download URL
@@ -35,17 +57,6 @@ jobs:
         with:
           path: ./wasp-data
           fetch-depth: 2
-          
-      - name: Check if item files changed
-        id: file_check
-        shell: bash
-        working-directory: ./wasp-data
-        run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^finders/items/data/item.txt$'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-          fi
       
       - name: Generate new item files
         if: steps.file_check.outputs.changed == 'true'
