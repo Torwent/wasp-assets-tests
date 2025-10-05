@@ -20,16 +20,14 @@ begin
       Continue;
     if files[i].StartsWith(PATH + '.git') then
       Continue;
-    if files[i].EndsWith('.hash') then
-      Continue;
     if files[i].EndsWith('.simba') then
       Continue;
     if SKIP.Contains(files[i]) then
       Continue;
 
     hash := HashFile(EHashAlgo.CRC32, files[i]);
+    WriteLn('File: ', files[i].After(path), ' Hash: ', hash);
     json.AddString(files[i].After(path), hash);
-    WriteLn('File: ', PathExtractName(files[i]), ' Hash: ', hash);
   end;
 
   json.Save(path + 'hashes.json');
