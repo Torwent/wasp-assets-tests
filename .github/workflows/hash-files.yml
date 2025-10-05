@@ -3,13 +3,13 @@ name: Update Hashes
 on:
   push:
     branches:
-      - main
+      - '**'
 
 jobs:
   hash-files:
     if: ${{ github.repository_owner == 'WaspScripts' }}
     runs-on: windows-latest
-    steps:          
+    steps:
       - name: Fetch Simba 2 download URL
         id: simba-url
         run: |
@@ -35,7 +35,7 @@ jobs:
         with:
           path: ./wasp-data
           fetch-depth: 2
-          
+
       - name: Create hash files
         shell: bash
         run: |
@@ -54,8 +54,8 @@ jobs:
           else
             echo "No changes to commit."
           fi
-          
-          
+
+
   notification:
     if: ${{ github.repository_owner == 'WaspScripts' }}
     runs-on: ubuntu-latest
