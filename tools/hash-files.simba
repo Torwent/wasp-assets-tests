@@ -32,5 +32,6 @@ begin
     json.AddString(files[i].After(path), hash);
   end;
 
+  WriteLn json.Format();
   json.Save(path + 'hashes.json');
 end.

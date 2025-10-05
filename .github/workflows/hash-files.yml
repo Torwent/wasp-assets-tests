@@ -41,7 +41,7 @@ jobs:
         run: |
           ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/hash-files.simba
 
-      - name: Commit hash files
+      - name: Commit hashes.json
         shell: bash
         run: |
           cd ./wasp-data
@@ -54,8 +54,35 @@ jobs:
           else
             echo "No changes to commit."
           fi
-
-
+          
+      - name: Upload files to Database
+        if: ${{ github.repository_owner == 'WaspScripts' }}
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        shell: bash
+        run: |
+          cd ./wasp-data
+          find . -type f \
+            ! -path "*/.git/*" \
+            ! -path "./.git/*" \
+            ! -path "./.github/*" \
+            ! -name ".gitignore" \
+            ! -name ".gitattributes" \
+            ! -name "LICENSE" \
+            ! -name "README.md" \
+            ! -name "*.simba" \
+          | while read file; do
+            remote_path="${file#./}"
+            mime_type=$(file --mime-type -b "$file")
+            echo "→ Uploading $remote_path ($mime_type)"
+            curl -s -X PUT "$SUPABASE_URL/storage/v1/object/data/$remote_path" \
+              -H "Authorization: Bearer $SUPABASE_KEY" \
+              -H "Content-Type: $mime_type" \
+              --data-binary @"$file"
+            echo ""
+          done
+          
   notification:
     if: ${{ github.repository_owner == 'WaspScripts' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
