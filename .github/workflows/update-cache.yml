@@ -1,0 +1,16 @@
+name: Update Item Cache
+
+on:
+    schedule:
+        - cron: '0 0 * * 0'  # Runs every Sunday at midnight
+
+jobs:
+    build-runelite:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v5
+              with:
+                repository: 'runelite/runelite'
+                ref: 'master'
+                path: ./runelite
