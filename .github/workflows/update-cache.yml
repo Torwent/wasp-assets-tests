@@ -22,6 +22,7 @@ jobs:
                   distribution: 'temurin'
                   java-version: '11'
                   cache: 'maven'
+                  cache-dependency-path: 'runelite/pom.xml' # optional
             - name: Build RuneLite
               run: |
                   cd runelite
@@ -31,4 +32,4 @@ jobs:
               with:
                 name: RuneLite-Build
                 path: staging
-            - run: java -jar staging/client-*-shaded.jar --cache
+            - run: java -jar staging/client-*-shaded.jar
