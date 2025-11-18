@@ -118,7 +118,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: items-${{ inputs.cache_version }}
-          path: cache/output/item-definitions.zip
+          path: cache/output/${{ inputs.cache_version }}/item-definitions.zip
 
   dump-collisionmap:
     runs-on: ubuntu-latest
