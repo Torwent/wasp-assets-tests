@@ -52,21 +52,18 @@ jobs:
         uses: actions/cache@v4
         id: openrs2-cache
         with:
-          path: |
-            openrs2/cache.zip
-            openrs2/keys.json
-            openrs2/cache/input/${{ steps.read-version.outputs.VERSION }}
+          path: openrs2/cache.zip
           key: openrs2-cache-${{ steps.read-version.outputs.VERSION }}
       - name: Download OpenRS2 (miss)
         if: steps.openrs2-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p openrs2
           curl -L -o openrs2/cache.zip https://archive.openrs2.org/caches/runescape/${{ steps.read-version.outputs.VERSION }}/disk.zip
-          curl -L -o openrs2/keys.json https://archive.openrs2.org/caches/runescape/${{ steps.read-version.outputs.VERSION }}/keys.json
       - name: Extract OpenRS2
         run: |
           mkdir -p openrs2/cache/input/${{ steps.read-version.outputs.VERSION }}
           unzip -o openrs2/cache.zip -d openrs2/cache/input/${{ steps.read-version.outputs.VERSION }}
+          curl -L -o openrs2/keys.json https://archive.openrs2.org/caches/runescape/${{ steps.read-version.outputs.VERSION }}/keys.json
           mv openrs2/keys.json openrs2/cache/input/${{ steps.read-version.outputs.VERSION }}/${{ steps.read-version.outputs.VERSION }}.json
       - name: Upload OpenRS2 artifact
         uses: actions/upload-artifact@v4
