@@ -1,4 +1,4 @@
-name: Update Item Cache
+name: Update Dumps
 
 on:
   workflow_dispatch:
@@ -329,7 +329,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sprites-${{ needs.fetch-openrs2.outputs.cache_version }}
-          path: cache/output/${{ needs.fetch-openrs2.outputs.cache_version }}/sprites
+          path: cache/output/${{ needs.fetch-openrs2.outputs.cache_version }}/Sprites
 
 #   dump-cache:
 #     runs-on: ubuntu-latest
