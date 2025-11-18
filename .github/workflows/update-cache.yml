@@ -56,8 +56,8 @@ jobs:
               if: steps.cache-openrs2.outputs.cache-hit == 'true'
               run: |
                   mkdir -p cache/input
-                  if [ ! -d "cache/input/cache" ]; then
-                    unzip -o cache.zip -d cache/input
+                  if [ ! -d "cache/input/2349" ]; then
+                    unzip -o cache.zip -d cache/input/2349
                   fi           
             - name: Run SimbaItemDumper
               run: |
