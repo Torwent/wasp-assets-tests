@@ -95,7 +95,7 @@ jobs:
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp "staging/cache-*.jar" net.runelite.cache.SimbaItemDumper \
+          java -cp "staging/cache-*-SNAPSHOT-jar-with-dependencies.jar" net.runelite.cache.SimbaItemDumper \
             --cachedir cache/input --cachename ${{ needs.fetch-openrs2.outputs.cache_version }} --outputdir cache/output || echo "SimbaItemDumper finished"
       - name: Upload Items
         uses: actions/upload-artifact@v4
@@ -127,7 +127,7 @@ jobs:
       - name: Run SimbaCacheDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp "staging/cache-*.jar" net.runelite.cache.SimbaCacheDumper \
+          java -cp "staging/cache-*-SNAPSHOT-jar-with-dependencies.jar" net.runelite.cache.SimbaCacheDumper \
             --cachedir cache/input --cachename ${{ needs.fetch-openrs2.outputs.cache_version }} --outputdir cache/output || echo "SimbaCacheDumper finished"
       - name: Upload Items
         uses: actions/upload-artifact@v4
