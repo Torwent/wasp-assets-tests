@@ -338,8 +338,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: sprites-${{ needs.fetch-openrs2.outputs.cache_version }}
-          path: cache/output/${{ needs.fetch-openrs2.outputs.cache_version }}/Sprites
-
+          path: cache/output/${{ needs.fetch-openrs2.outputs.cache_version }}
+          
 #   dump-cache:
 #     runs-on: ubuntu-latest
 #     needs: [build-runelite, fetch-openrs2]
