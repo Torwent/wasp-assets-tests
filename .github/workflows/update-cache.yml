@@ -18,17 +18,17 @@ jobs:
             - name: Checkout RuneLite repository
               uses: actions/checkout@v5
               with:
-                repository: 'runelite/runelite'
-                ref: 'master'
+                repository: 'torwent/runelite'
+                ref: 'main'
                 path: ./runelite
             - name: Merge Torwent/Runelite changes into runelite/runelite
               run: |
                     git config --global user.name "github-actions"
                     git config --global user.email "github-actions@github.com"
                     cd runelite
-                    git remote add torwent https://github.com/Torwent/runelite.git
-                    git fetch torwent
-                    git merge --allow-unrelated-histories torwent/main
+                    git remote add runelite https://github.com/runelite/runelite.git
+                    git fetch runelite
+                    git merge --allow-unrelated-histories runelite/master
             - name: Setup Java 11
               uses: actions/setup-java@v4
               with:
