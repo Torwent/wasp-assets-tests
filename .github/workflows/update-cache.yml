@@ -43,7 +43,7 @@ jobs:
               with:
                 path: |
                   cache.zip
-                  cache/input
+                  keys.json
                 key: openrs2-cache-2349
             - name: OpenRS2 Cache download
               if: steps.cache-openrs2.outputs.cache-hit != 'true'
@@ -51,14 +51,14 @@ jobs:
                   mkdir -p cache/input
                   curl -L -o cache.zip https://archive.openrs2.org/caches/runescape/2349/disk.zip
                   unzip -o cache.zip -d cache/input/2349
-                  curl -L -o cache/input/2349/keys.json https://archive.openrs2.org/caches/runescape/2349/keys.json
+                  curl -L -o keys.json https://archive.openrs2.org/caches/runescape/2349/keys.json
+                  mv keys.json cache/input/2349/keys.json
             - name: Extract cached zip if needed
               if: steps.cache-openrs2.outputs.cache-hit == 'true'
               run: |
                   mkdir -p cache/input
-                  if [ ! -d "cache/input/2349" ]; then
-                    unzip -o cache.zip -d cache/input/2349
-                  fi           
+                  unzip -o cache.zip -d cache/input/2349
+                  mv keys.json cache/input/2349/keys.json
             - name: Run SimbaItemDumper
               run: |
                 mkdir -p cache/output
