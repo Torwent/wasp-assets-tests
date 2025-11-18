@@ -112,7 +112,7 @@ jobs:
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Zip item definitions
         run: |
-            cd cache/output
+            cd cache/output/${{ inputs.cache_version }}
             zip -r item-definitions.zip items
       - name: Upload Items
         uses: actions/upload-artifact@v4
