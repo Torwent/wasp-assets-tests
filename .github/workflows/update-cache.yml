@@ -12,6 +12,8 @@ on:
     branches:
       - main
 
+run-name: Update Dumps for OpenRS2 cache version ${{ inputs.cache_version }}
+
 jobs:
   build-runelite:
     runs-on: ubuntu-latest
