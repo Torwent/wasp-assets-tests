@@ -38,15 +38,6 @@ jobs:
               run: |
                   cd runelite
                   mvn clean package -DskipTests
-            - name: Copy built client jar
-              run: |
-                  mkdir staging
-                  cp runelite/cache/target/*.jar staging
-                  cp runelite/runelite-client/target/client-*-shaded.jar staging
-            - uses: actions/upload-artifact@v4
-              with:
-                name: RuneLite-Build
-                path: staging
             - name: Cache OpenRS2 files
               uses: actions/cache@v4
               id: cache-openrs2
@@ -78,3 +69,7 @@ jobs:
                   -Dexec.mainClass=net.runelite.cache.SimbaItemDumper \
                   -Dexec.classpathScope=compile \
                   -Dexec.args="--cachedir ../cache/input --cachename 2349 --outputdir ../cache/output"
+            - uses: actions/upload-artifact@v4
+              with:
+                name: Items
+                path: /cache/output/2349/items
