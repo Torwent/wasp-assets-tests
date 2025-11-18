@@ -110,11 +110,15 @@ jobs:
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-jar-with-dependencies.jar net.runelite.cache.SimbaItemDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+      - name: Zip item definitions
+        run: |
+            cd cache/output
+            zip -r item-definitions.zip items
       - name: Upload Items
         uses: actions/upload-artifact@v4
         with:
           name: items-${{ inputs.cache_version }}
-          path: cache/output/${{ inputs.cache_version }}/items
+          path: cache/output/item-definitions.zip
 
   dump-collisionmap:
     runs-on: ubuntu-latest
@@ -353,16 +357,7 @@ jobs:
           path: artifacts
       - name: Organize dump outputs
         run: |
-          mkdir -p data/${{ inputs.cache_version }}
-          cp -r artifacts/items-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/collision-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/heightmap-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/itemsprites-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/map-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/npcs-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/objects-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          cp -r artifacts/sprites-${{ inputs.cache_version }}/* data/${{ inputs.cache_version }}/ 2>/dev/null || true
-          ls -la data/${{ inputs.cache_version }}
+          cp artifacts-items-${{ inputs.cache_version }}/item-definitions.zip jsons/item-definitions.zip 2>/dev/null || true
       - name: Create branch and commit
         run: |
           git config user.name "github-actions[bot]"
