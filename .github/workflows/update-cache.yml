@@ -60,13 +60,9 @@ jobs:
             - name: OpenRS2 Cache download
               if: steps.cache-openrs2.outputs.cache-hit != 'true'
               run : |
-                  mkdir -p cache/input
                   curl -L -o cache.zip https://archive.openrs2.org/caches/runescape/${{ steps.cache-version.outputs.VERSION }}/disk.zip
-                  unzip -o cache.zip -d cache/input/${{ steps.cache-version.outputs.VERSION }}
                   curl -L -o keys.json https://archive.openrs2.org/caches/runescape/${{ steps.cache-version.outputs.VERSION }}/keys.json
-                  mv keys.json cache/input/${{ steps.cache-version.outputs.VERSION }}/${{ steps.cache-version.outputs.VERSION }}.json
             - name: Extract cached zip if needed
-              if: steps.cache-openrs2.outputs.cache-hit == 'true'
               run: |
                   mkdir -p cache/input
                   unzip -o cache.zip -d cache/input/${{ steps.cache-version.outputs.VERSION }}
@@ -75,7 +71,7 @@ jobs:
               run: |
                 mkdir -p cache/output
                 cd runelite/cache
-                mvn -q org.codehaus.mojo:exec-maven-plugin:3.1.0:java \
+                mvn -e org.codehaus.mojo:exec-maven-plugin:3.1.0:java \
                   -Dexec.mainClass=net.runelite.cache.SimbaCacheDumper \
                   -Dexec.classpathScope=compile \
                   -Dexec.args="--cachedir ../../cache/input --cachename ${{ steps.cache-version.outputs.VERSION }} --outputdir ../../cache/output"
