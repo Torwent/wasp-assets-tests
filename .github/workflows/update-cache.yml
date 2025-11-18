@@ -46,5 +46,9 @@ jobs:
               run : |
                   mkdir -p cache/input
                   curl -L -o cache.zip https://archive.openrs2.org/caches/runescape/2349/disk.zip
-                  unzip -o cache.zip -d cache/input           
-            #- run: java -cp staging/client-*-shaded.jar -cp cache net.runelite.cache.SimbaItemDumper
+                  unzip -o cache.zip -d cache/input
+                  curl -L -o cache/input/keys.json https://archive.openrs2.org/caches/runescape/2349/keys.json           
+            - name: Run SimbaItemDumper
+              run: |
+                mkdir -p cache/output
+                java -cp staging/client-*-shaded.jar -cp cache net.runelite.cache.SimbaItemDumper -cachedir cache/input -cachename cache -outputdir cache/output
