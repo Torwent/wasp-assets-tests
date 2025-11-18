@@ -32,6 +32,9 @@ jobs:
         run: |
           mkdir -p staging
           cp runelite/cache/target/cache-*.jar staging/
+          #ls -la runelite/cache/target | grep cache || true
+          # List classes inside fat jar (presence expected from Torwent/runelite repo)
+          #jar tf $(echo runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar | awk '{print $1}') | grep SimbaItemDumper || true
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -95,7 +98,7 @@ jobs:
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp "staging/cache-*-SNAPSHOT-jar-with-dependencies.jar" net.runelite.cache.SimbaItemDumper \
+          java -cp staging/cache-*-SNAPSHOT-jar-with-dependencies.jar net.runelite.cache.SimbaItemDumper \
             --cachedir cache/input --cachename ${{ needs.fetch-openrs2.outputs.cache_version }} --outputdir cache/output || echo "SimbaItemDumper finished"
       - name: Upload Items
         uses: actions/upload-artifact@v4
@@ -127,7 +130,7 @@ jobs:
       - name: Run SimbaCacheDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp "staging/cache-*-SNAPSHOT-jar-with-dependencies.jar" net.runelite.cache.SimbaCacheDumper \
+          java -cp staging/cache-*-SNAPSHOT-jar-with-dependencies.jar net.runelite.cache.SimbaCacheDumper \
             --cachedir cache/input --cachename ${{ needs.fetch-openrs2.outputs.cache_version }} --outputdir cache/output || echo "SimbaCacheDumper finished"
       - name: Upload Items
         uses: actions/upload-artifact@v4
