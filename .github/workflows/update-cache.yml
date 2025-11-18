@@ -21,15 +21,28 @@ jobs:
               with:
                   distribution: 'temurin'
                   java-version: '11'
-                  cache: 'maven'
-                  cache-dependency-path: 'runelite/pom.xml' # optional
+            - name: Cache local Maven repository
+              uses: actions/cache@v4
+              with:
+                  path: ~/.m2/repository
+                  key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                  restore-keys: |
+                    ${{ runner.os }}-maven-
+            - name: Copy SimbaItemDumper.java
+              run: |
+                  cp tools/dumpers/SimbaItemDumper.java runelite/cache/src/main/java/net/runelite/cache/SimbaItemDumper.java
             - name: Build RuneLite
               run: |
                   cd runelite
                   mvn clean package -DskipTests
             - run: mkdir staging && cp runelite/runelite-client/target/client-*-shaded.jar staging
-            - uses: actions/upload-artifact@v4
-              with:
-                name: RuneLite-Build
-                path: staging
-            - run: java -jar staging/client-*-shaded.jar
+            # - uses: actions/upload-artifact@v4
+            #   with:
+            #     name: RuneLite-Build
+            #     path: staging
+            - name: OpenRS2 Cache download
+              run : |
+                  mkdir -p cache/input
+                  curl -L -o cache.zip https://archive.openrs2.org/caches/runescape/2349/disk.zip
+                  unzip -o cache.zip -d cache/input           
+            #- run: java -cp staging/client-*-shaded.jar -cp cache net.runelite.cache.SimbaItemDumper
