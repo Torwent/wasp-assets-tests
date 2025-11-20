@@ -376,10 +376,10 @@ jobs:
           SIMBA_URL=${SIMBA_URL/Linux64.zip/Linux.zip}
           curl -L -o simba.zip "$SIMBA_URL"
           unzip simba.zip
-          chmod +x simba
+          chmod +x Simba-Linux64
       - name: Run Simba to extract additional assets
         run: |
-          ./simba --run tools/update_npcs.simba
+          ./Simba-Linux64 --run tools/update_npcs.simba
       - name: Create branch and commit
         run: |
           git config user.name "github-actions[bot]"
