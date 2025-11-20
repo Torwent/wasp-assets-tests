@@ -373,7 +373,9 @@ jobs:
       - name: Download Simba binary
         run: |
           SIMBA_URL=$(curl -L https://raw.githubusercontent.com/Villavu/Simba-Build-Archive/refs/heads/main/latest.linux64)
-          curl -L -o simba "$SIMBA_URL"
+          SIMBA_URL=${SIMBA_URL/Linux64.zip/Linux.zip}
+          curl -L -o simba.zip "$SIMBA_URL"
+          unzip simba.zip
           chmod +x simba
       - name: Run Simba to extract additional assets
         run: |
