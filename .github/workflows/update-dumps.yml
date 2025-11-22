@@ -116,7 +116,7 @@ jobs:
       - name: Upload Items
         uses: actions/upload-artifact@v4
         with:
-          name: items-${{ inputs.cache_version }}
+          name: items
           path: cache/output/${{ inputs.cache_version }}/item-definitions.zip
 
   dump-collisionmap:
@@ -146,7 +146,7 @@ jobs:
       - name: Upload Collision Maps
         uses: actions/upload-artifact@v4
         with:
-          name: collision-${{ inputs.cache_version }}
+          name: collision
           path: cache/output/${{ inputs.cache_version }}
 
           
@@ -181,7 +181,7 @@ jobs:
       - name: Upload Height Maps
         uses: actions/upload-artifact@v4
         with:
-          name: heightmap-${{ inputs.cache_version }}
+          name: heightmap
           path: cache/output/${{ inputs.cache_version }}/heightmap.zip
 
   dump-itemsprites:
@@ -211,7 +211,7 @@ jobs:
       - name: Upload Item Sprites
         uses: actions/upload-artifact@v4
         with:
-          name: itemsprites-${{ inputs.cache_version }}
+          name: itemsprites
           path: cache/output/${{ inputs.cache_version }}
 
   dump-mapimage:
@@ -241,7 +241,7 @@ jobs:
       - name: Upload Map Images
         uses: actions/upload-artifact@v4
         with:
-          name: map-${{ inputs.cache_version }}
+          name: map
           path: cache/output/${{ inputs.cache_version }}
 
   dump-npcs:
@@ -275,7 +275,7 @@ jobs:
       - name: Upload NPCs
         uses: actions/upload-artifact@v4
         with:
-          name: npcs-${{ inputs.cache_version }}
+          name: npcs
           path: cache/output/${{ inputs.cache_version }}/npcs.zip
 
   dump-objectinfo:
@@ -305,7 +305,7 @@ jobs:
       - name: Upload Object Info
         uses: actions/upload-artifact@v4
         with:
-          name: objects-${{ inputs.cache_version }}
+          name: objects
           path: cache/output/${{ inputs.cache_version }}
 
   dump-sprites:
@@ -335,7 +335,7 @@ jobs:
       - name: Upload Object Info
         uses: actions/upload-artifact@v4
         with:
-          name: sprites-${{ inputs.cache_version }}
+          name: sprites
           path: cache/output/${{ inputs.cache_version }}
 
   commit-results:
@@ -358,13 +358,12 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path jsons | Out-Null
           New-Item -ItemType Directory -Force -Path map | Out-Null
-          $cv = "${{ inputs.cache_version }}"
           $moves = @(
-            @{Source="artifacts/items-$cv/item-definitions.zip"; Dest="jsons/item-definitions.zip"},
-            @{Source="artifacts/collision-$cv/collision.zip"; Dest="map/collision.zip"},
-            @{Source="artifacts/heightmap-$cv/heightmap.zip"; Dest="map/heightmap.zip"},
-            @{Source="artifacts/npcs-$cv/npcs.zip"; Dest="map/npcs_helper.zip"},
-            @{Source="artifacts/map-$cv/map.zip"; Dest="map/map.zip"}
+            @{Source="artifacts/items/item-definitions.zip"; Dest="jsons/item-definitions.zip"},
+            @{Source="artifacts/collision/collision.zip"; Dest="map/collision.zip"},
+            @{Source="artifacts/heightmap/heightmap.zip"; Dest="map/heightmap.zip"},
+            @{Source="artifacts/npcs/npcs.zip"; Dest="map/npcs_helper.zip"},
+            @{Source="artifacts/map/map.zip"; Dest="map/map.zip"}
           )
           foreach ($m in $moves) {
             if (Test-Path $m.Source) {
@@ -374,20 +373,21 @@ jobs:
               Write-Host "Source not found (skipping): $($m.Source)"
             }
           }
-      - name: Download Simba binary
+      - name: Download Simba binaries
         run: |
           $latestUrlFile = "https://raw.githubusercontent.com/Villavu/Simba-Build-Archive/refs/heads/main/latest.win64"
           $simbaZipUrl = (Invoke-WebRequest -Uri $latestUrlFile -UseBasicParsing).Content.Trim()
           Invoke-WebRequest -Uri $simbaZipUrl -OutFile simba.zip
-          Invoke-WebRequest -Uri https://github.com/Villavu/Simba/releases/download/simba1400-release/Simba-Win64.exe -OutFile Simba-1400.exe
           Expand-Archive -Path simba.zip -Force -DestinationPath .
-      - name: Run Simba to extract additional assets
-        run: |
-          $exe = Get-ChildItem . -Filter "Simba-Win64*.exe" | Select-Object -First 1
-          & .\Simba-Win64.exe --run tools/hash-files.simba
-          & .\Simba-Win64.exe --run tools/update_gear.simba
-          & .\Simba-Win64.exe --run tools/update_items.simba
-          & .\Simba-1400.exe --run tools/update_npcs.simba
+          Invoke-WebRequest -Uri https://github.com/Villavu/Simba/releases/download/simba1400-release/Simba-Win64.exe -OutFile Simba-1400.exe
+      - name: Run hash-files.simba
+        run: .\Simba-Win64.exe --run tools/hash-files.simba
+      - name: Run update_gear.simba
+        run: .\Simba-Win64.exe --run tools/update_gear.simba
+      - name: Run update_items.simba
+        run: .\Simba-Win64.exe --run tools/update_items.simba
+      - name: Run update_npcs.simba
+        run: .\Simba-1400.exe --run tools/update_npcs.simba
       - name: Create branch and commit
         run: |
           git config user.name "github-actions[bot]"
