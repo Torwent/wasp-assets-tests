@@ -27,15 +27,6 @@ jobs:
           repository: 'Torwent/runelite'
           ref: 'main'
           path: ./runelite
-      # - name: Checkout Torwent/RuneLite repository
-      #   uses: actions/checkout@v5
-      #   with:
-      #       repository: 'Torwent/runelite'
-      #       ref: 'main'
-      #       path: ./torwent-runelite
-      # - name: Copy Simba*Dumper.java
-      #   run: |
-      #       cp torwent-runelite/cache/src/main/java/net/runelite/cache/Simba*.java runelite/cache/src/main/java/net/runelite/cache/
       - name: Setup Java 11
         uses: actions/setup-java@v4
         with:
@@ -46,24 +37,15 @@ jobs:
         run: |
           cd runelite/cache
           mvn -q -DskipTests package
-      - name: Collect artifacts
-        run: |
-          mkdir -p staging
-          cp runelite/cache/target/cache-*.jar staging/
-          #ls -la runelite/cache/target | grep cache || true
-          # List classes inside fat jar (presence expected from Torwent/runelite repo)
-          #jar tf $(echo runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar | awk '{print $1}') | grep SimbaItemDumper || true
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: runelite-jars
-          path: staging
+          path: runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar
 
   fetch-openrs2:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Wasp Data repository
-        uses: actions/checkout@v5
       - name: Restore/OpenRS2 cache
         uses: actions/cache@v4
         id: openrs2-cache
@@ -177,7 +159,8 @@ jobs:
       - name: Zip item definitions
         run: |
             cd cache/output/${{ inputs.cache_version }}
-            zip -r heightmap.zip heightmap/*
+            rm heightmap
+            zip -r heightmap.zip heightmap/* -x heightmap/heightmap/*
       - name: Upload Height Maps
         uses: actions/upload-artifact@v4
         with:
