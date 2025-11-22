@@ -99,7 +99,6 @@ var
   coordinate: TPoint;
   idMiss, nameMiss: Int32;
 begin
-  ClearDebug();
   DeleteDirectory(JSONS_PATH, False);
 
   if RESET_CACHE then DeleteDirectory(HELPER_CACHE, False);
