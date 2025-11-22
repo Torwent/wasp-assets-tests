@@ -383,12 +383,10 @@ jobs:
           Invoke-WebRequest -Uri https://github.com/Villavu/Simba/releases/download/simba1400-release/Simba-Win64.exe -OutFile Simba-1400.exe
           Invoke-WebRequest -Uri https://indy.fulgan.com/SSL/Archive/openssl-1.0.2j-x64_86-win64.zip -OutFile openssl.zip
           Expand-Archive -Path openssl.zip -Force -DestinationPath .\Data\64\
-      - name: Run hash-files.simba
-        run: .\Simba-Win64.exe --run tools/hash-files.simba
       - name: Run update_gear.simba
-        run: .\Simba-Win64.exe --run tools/update_gear.simba
+        run: .\Simba-Win64.exe --extractopenssl --run tools/update_gear.simba
       - name: Run update_items.simba
-        run: .\Simba-Win64.exe --run tools/update_items.simba
+        run: .\Simba-Win64.exe --extractopenssl --run tools/update_items.simba
       - name: Run update_npcs.simba
         run: |
           .\Simba-1400.exe --run tools/update_npcs.simba
