@@ -94,7 +94,7 @@ jobs:
           Copy-Item -Recurse -Force "openrs2-${{ inputs.cache_version }}/cache/*" $cacheDir
       - name: Run RuneLite (java)
         run: |
-          $jar = Get-ChildItem staging -Filter "*-shaded.jar" | Select-Object -First 1
+          $jar = Get-ChildItem runelite-jars -Filter "*-shaded.jar" | Select-Object -First 1
           if (-not $jar) { Write-Error "Shaded jar not found"; exit 1 }
           $process = Start-Process -FilePath "java" -ArgumentList "-jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
           $timeout = 300
