@@ -37,11 +37,17 @@ jobs:
         run: |
           cd runelite/cache
           mvn -q -DskipTests package
+      - name: Build RuneLite (cache module + dependencies)
+        run: |
+          cd runelite/runelite-client
+          mvn -q -DskipTests package
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: runelite-jars
-          path: runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar
+          path: |
+            runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar
+            runelite/runelite-client/target/*-shaded.jar
 
   fetch-openrs2:
     runs-on: ubuntu-latest
