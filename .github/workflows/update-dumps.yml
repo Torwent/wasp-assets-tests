@@ -41,13 +41,16 @@ jobs:
         run: |
           cd runelite/runelite-client
           mvn -q -DskipTests package
+      - name: Copy to staging
+        run: |
+          mkdir -p staging
+          cp runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar staging/
+          cp runelite/runelite-client/target/*-shaded.jar staging/
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: runelite-jars
-          path: |
-            runelite/cache/target/cache-*-SNAPSHOT-jar-with-dependencies.jar
-            runelite/runelite-client/target/*-shaded.jar
+          path: staging/
 
   fetch-openrs2:
     runs-on: ubuntu-latest
