@@ -103,8 +103,8 @@ jobs:
           }
           if ($elapsed -ge $timeout) {
             Write-Host "Timeout reached, stopping process"
-            
-            $File = "screenshot.png"
+
+            $File = "itemfinder/screenshot1.png"
             Add-Type -AssemblyName System.Windows.Forms
             Add-type -AssemblyName System.Drawing
             # Gather Screen resolution information
@@ -126,6 +126,40 @@ jobs:
 
             Stop-Process -Id $process.Id -Force
           }
+
+          $process = Start-Process -FilePath "java" -ArgumentList "-jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
+          $timeout = 120
+          $elapsed = 0
+          while (-not $process.HasExited -and $elapsed -lt $timeout) {
+            Start-Sleep -Seconds 5
+            $elapsed += 5
+          }
+          if ($elapsed -ge $timeout) {
+            Write-Host "Timeout reached, stopping process"
+
+            $File = "itemfinder/screenshot2.png"
+            Add-Type -AssemblyName System.Windows.Forms
+            Add-type -AssemblyName System.Drawing
+            # Gather Screen resolution information
+            $Screen = [System.Windows.Forms.SystemInformation]::VirtualScreen
+            $Width = $Screen.Width
+            $Height = $Screen.Height
+            $Left = $Screen.Left
+            $Top = $Screen.Top
+            # Create bitmap using the top-left and bottom-right bounds
+            $bitmap = New-Object System.Drawing.Bitmap $Width, $Height
+            # Create Graphics object
+            $graphic = [System.Drawing.Graphics]::FromImage($bitmap)
+            # Capture screen
+            $graphic.CopyFromScreen($Left, $Top, 0, 0, $bitmap.Size)
+            # Save to file
+            $bitmap.Save($File) 
+            Write-Output "Screenshot saved to:"
+            Write-Output $File
+
+            Stop-Process -Id $process.Id -Force
+          }
+
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
       - name: Upload ItemFinder
