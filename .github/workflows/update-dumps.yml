@@ -156,11 +156,12 @@ jobs:
         run: |
             cd cache/output/${{ inputs.cache_version }}
             rm -r heightmap
+            zip -r heightmap.zip ./
       - name: Upload Height Maps
         uses: actions/upload-artifact@v4
         with:
           name: heightmap
-          path: cache/output/${{ inputs.cache_version }}
+          path: cache/output/${{ inputs.cache_version }}/heightmap.zip
 
   dump-itemsprites:
     runs-on: ubuntu-latest
