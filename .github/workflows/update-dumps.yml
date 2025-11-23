@@ -329,7 +329,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path jsons | Out-Null
           New-Item -ItemType Directory -Force -Path map | Out-Null
           $moves = @(
-            @{Source="artifacts/items/item-definitions.zip"; Dest="jsons/item-definitions.zip"},
+            @{Source="artifacts/items/items.zip"; Dest="jsons/item-definitions.zip"},
             @{Source="artifacts/collision/collision.zip"; Dest="map/collision.zip"},
             @{Source="artifacts/heightmap/heightmap.zip"; Dest="map/heightmap.zip"},
             @{Source="artifacts/npcs/npcs.zip"; Dest="map/npcs_helper.zip"},
