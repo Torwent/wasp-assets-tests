@@ -92,7 +92,8 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-jar-with-dependencies.jar net.runelite.cache.SimbaItemDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
           ls -lah cache/output/${{ inputs.cache_version }}
-          zip -r cache/output/${{ inputs.cache_version }}/items.zip cache/output/${{ inputs.cache_version }}/items/*
+          cd cache/output/${{ inputs.cache_version }}/items
+          zip -r cache/output/${{ inputs.cache_version }}/items.zip ./*.json
       - name: Upload Items
         uses: actions/upload-artifact@v4
         with:
