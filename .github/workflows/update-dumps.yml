@@ -246,11 +246,15 @@ jobs:
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-jar-with-dependencies.jar net.runelite.cache.SimbaNPCDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+      - name: Zip NPCs folder
+        run: |
+            cd cache/output/${{ inputs.cache_version }}
+            zip -r npcs.zip NPCs/*
       - name: Upload NPCs
         uses: actions/upload-artifact@v4
         with:
           name: npcs
-          path: cache/output/${{ inputs.cache_version }}/NPCs
+          path: cache/output/${{ inputs.cache_version }}/npcs.zip
 
   dump-objectinfo:
     runs-on: ubuntu-latest
