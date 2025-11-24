@@ -130,6 +130,12 @@ jobs:
           }
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
+      - name: Convert item.txt from Windows-1250 to UTF-8
+        run: |
+          $itemTxtPath = "itemfinder/item.txt"
+          $content = Get-Content -Path $itemTxtPath -Encoding Byte
+          $utf8Content = [System.Text.Encoding]::UTF8.GetString([System.Text.Encoding]::Convert([System.Text.Encoding]::GetEncoding("windows-1250"), [System.Text.Encoding]::UTF8, $content))
+          Set-Content -Path $itemTxtPath -Value $utf8Content -Encoding UTF8
       - name: Upload ItemFinder
         uses: actions/upload-artifact@v4
         with:
