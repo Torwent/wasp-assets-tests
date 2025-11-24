@@ -54,7 +54,7 @@ jobs:
           else
             echo "No changes to commit."
           fi
-          
+
       - name: Upload files to Database
         if: ${{ github.repository_owner == 'WaspScripts' }}
         env:
@@ -72,6 +72,8 @@ jobs:
             ! -name "LICENSE" \
             ! -name "README.md" \
             ! -name "*.simba" \
+            ! -name "preferences.dat" \
+            ! -name "preferences2.dat" \
           | while read file; do
             remote_path="${file#./}"
             mime_type=$(file --mime-type -b "$file")
@@ -82,7 +84,7 @@ jobs:
               --data-binary @"$file"
             echo ""
           done
-          
+
   notification:
     if: ${{ github.repository_owner == 'WaspScripts' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest

@@ -31,7 +31,7 @@ jobs:
     if: ${{ github.repository_owner == 'WaspScripts' && needs.check-items.outputs.changed == 'true' }}
     needs: check-items
     runs-on: windows-latest
-    steps:          
+    steps:
       - name: Fetch Simba 2 download URL
         id: simba-url
         run: |
@@ -57,11 +57,11 @@ jobs:
         with:
           path: ./wasp-data
           fetch-depth: 2
-      
+
       - name: Generate new item files
         shell: bash
         run: ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/update_items.simba
-          
+
       - name: Create hash files
         shell: bash
         run: ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/hash-files.simba
@@ -79,13 +79,12 @@ jobs:
           else
             echo "No changes to commit."
           fi
-          
-          
+
   process-gear:
     if: ${{ github.repository_owner == 'WaspScripts' && needs.check-items.outputs.changed == 'true' }}
     needs: process-items
     runs-on: windows-latest
-    steps:          
+    steps:
       - name: Fetch Simba 2 download URL
         id: simba-url
         run: |
@@ -111,11 +110,11 @@ jobs:
         with:
           path: ./wasp-data
           fetch-depth: 2
-          
+
       - name: Generate new gear.json
         shell: bash
         run: ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/update_gear.simba
-          
+
       - name: Create hash files
         shell: bash
         run: ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/hash-files.simba
