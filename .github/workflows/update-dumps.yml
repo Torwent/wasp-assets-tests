@@ -395,8 +395,10 @@ jobs:
 
       - name: Create Pull Request if changes
         if: steps.commit.outputs.changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh auth setup-git
+          echo $GITHUB_TOKEN | gh auth login --with-token
           gh pr create \
             --base main \
             --head update-${{ inputs.cache_version }} \
