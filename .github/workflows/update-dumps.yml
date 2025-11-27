@@ -58,8 +58,11 @@ jobs:
         uses: actions/cache/restore@v4
         id: openrs2-cache
         with:
-          path: cache/input/${{ inputs.cache_version }}
+          path: |
+            cache/input/${{ inputs.cache_version }}
+            ~/.runelite/jagexcache/oldschool/LIVE
           key: openrs2-cache-${{ inputs.cache_version }}
+          enableCrossOsArchive: true
       - name: Download OpenRS2 (miss)
         if: steps.openrs2-cache.outputs.cache-hit != 'true'
         run: |
@@ -72,8 +75,11 @@ jobs:
       - name: Save OpenRS2 cache
         uses: actions/cache/save@v4
         with:
-          path: cache/input/${{ inputs.cache_version }}
+          path: |
+            cache/input/${{ inputs.cache_version }}
+            ~/.runelite/jagexcache/oldschool/LIVE
           key: openrs2-cache-${{ inputs.cache_version }}
+          enableCrossOsArchive: true
       # - name: Upload OpenRS2 artifact
       #   uses: actions/upload-artifact@v4
       #   with:
@@ -94,7 +100,7 @@ jobs:
       - name: Restore OpenRS2 cache
         uses: actions/cache/restore@v4
         with:
-          path: C:\Users\runneradmin\.runelite\jagexcache\oldschool\LIVE
+          path: ~/.runelite/jagexcache/oldschool/LIVE
           key: openrs2-cache-${{ inputs.cache_version }}
           enableCrossOsArchive: true
           fail-on-cache-miss: true
