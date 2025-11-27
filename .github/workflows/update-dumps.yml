@@ -56,6 +56,7 @@ jobs:
     steps:
       - name: Fetch latest OpenRS2 keys.json
         run: |
+          mkdir -p cache/input/${{ inputs.cache_version }}
           curl -L -o cache/input/${{ inputs.cache_version }}/${{ inputs.cache_version }}.json https://archive.openrs2.org/caches/runescape/${{ inputs.cache_version }}/keys.json
       - name: Restore/OpenRS2 cache
         uses: actions/cache@v4
