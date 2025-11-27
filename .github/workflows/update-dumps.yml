@@ -357,41 +357,36 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-      - name: Download all dump artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-      - name: Organize dump outputs
-        run: |
-          mv artifacts/itemfinder/items-imgs.zip finders/items/items-imgs.zip
-          mv artifacts/itemfinder/id.txt finders/items/data/id.txt
-          mv artifacts/itemfinder/item.txt finders/items/data/item.txt
-          mv artifacts/items/items.zip jsons/item-definitions.zip
-          mv artifacts/npcs/npcs.zip map/npcs_helper.zip
-          mv artifacts/map/map.zip map/map.zip
-          mv artifacts/objects/objects.zip map/objects.zip
-          mv artifacts/collision/collision.zip map/collision.zip
-          mv artifacts/heightmap/heightmap.zip map/heightmap.zip
-          rm -r artifacts/
-
       - name: Set up Git
         run: |
           git config --global user.name "Wasp Bot"
           git config --global user.email "waspbot@waspcripts.com"
-
-      - name: Commit changes if any
-        id: commit
+      - name: Download all dump artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Organize dump outputs and stage changes
         run: |
-          git checkout -B update-${{ inputs.cache_version }}
-          git add .
-          # Check if there are any changes
-          if git diff --cached --quiet; then
-            echo "No changes detected"
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            git commit -m "Update cache dumps to version ${{ inputs.cache_version }}"
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
+          declare -A files=(
+            ["artifacts/itemfinder/items-imgs.zip"]="finders/items/items-imgs.zip"
+            ["artifacts/itemfinder/id.txt"]="finders/items/data/id.txt"
+            ["artifacts/itemfinder/item.txt"]="finders/items/data/item.txt"
+            ["artifacts/items/items.zip"]="jsons/item-definitions.zip"
+            ["artifacts/npcs/npcs.zip"]="map/npcs_helper.zip"
+            ["artifacts/map/map.zip"]="map/map.zip"
+            ["artifacts/objects/objects.zip"]="map/objects.zip"
+            ["artifacts/collision/collision.zip"]="map/collision.zip"
+            ["artifacts/heightmap/heightmap.zip"]="map/heightmap.zip"
+          )
+          for src in "${!files[@]}"; do
+            dst="${files[$src]}"
+            mkdir -p "$(dirname "$dst")"
+            if [ ! -f "$dst" ] || ! cmp -s "$src" "$dst"; then
+              mv "$src" "$dst"
+              git add "$dst"
+            fi
+          done
+          rm -rf artifacts/
 
       - name: Create Pull Request if changes
         if: steps.commit.outputs.changed == 'true'
