@@ -111,9 +111,18 @@ jobs:
           $process = Start-Process -FilePath "java" -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
           $timeout = 300
           $elapsed = 0
-          while (-not $process.HasExited -and $elapsed -lt $timeout) {
+          while ($elapsed -lt $timeout) {
             Start-Sleep -Seconds 5
             $elapsed += 5
+          }
+          if ($elapsed -ge $timeout) {
+            Write-Host "Timeout reached, stopping process"
+            Stop-Process -Id $process.Id -Force
+          }
+          Get-Content "output.log" -ErrorAction SilentlyContinue
+          Get-Content "error.log" -ErrorAction SilentlyContinue
+          $process = Start-Process -FilePath "java" -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
+          while (-not $process.HasExited) {
             if (Test-Path "output.log") {
               $content = Get-Content "output.log" -Raw
               if ($content -match "ItemFinder completed") {
@@ -122,10 +131,6 @@ jobs:
                 break
               }
             }
-          }
-          if ($elapsed -ge $timeout) {
-            Write-Host "Timeout reached, stopping process"
-            Stop-Process -Id $process.Id -Force
           }
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
