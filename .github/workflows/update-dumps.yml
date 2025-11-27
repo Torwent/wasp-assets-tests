@@ -112,7 +112,7 @@ jobs:
           while (-not $process.HasExited) {
             if (Test-Path "output.log") {
               $content = Get-Content "output.log" -Raw
-              if ($content -match "Unable to ping session service") {
+              if ($content -match "cache itemModelCache thrashing, enlarging to 512 entries") {
                 Write-Host "Startup completed, stopping process"
                 Stop-Process -Id $process.Id -Force
                 break
