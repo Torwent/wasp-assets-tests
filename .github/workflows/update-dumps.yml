@@ -94,8 +94,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
           enableCrossOsArchive: true
           fail-on-cache-miss: true
       - name: Copy cache
@@ -154,8 +153,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
@@ -187,8 +185,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
@@ -218,8 +215,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaCollisionMapDumper (java)
         run: |
           mkdir -p cache/output
@@ -249,8 +245,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaHeightMapDumper (java)
         run: |
           mkdir -p cache/output
@@ -280,8 +275,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaMapImageDumper (java)
         run: |
           mkdir -p cache/output
@@ -311,8 +305,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaNPCDumper (java)
         run: |
           mkdir -p cache/output
@@ -346,8 +339,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaObjectInfoDumper (java)
         run: |
           mkdir -p cache/output
@@ -377,8 +369,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: cache/input/${{ inputs.cache_version }}
-          restore-keys: |
-            openrs2-cache-${{ inputs.cache_version }}-
+          key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Run SimbaSpriteDumper (java)
         run: |
           mkdir -p cache/output
