@@ -112,7 +112,7 @@ jobs:
           while (-not $process.HasExited) {
             if (Test-Path "output.log") {
               $content = Get-Content "output.log" -Raw
-              if ($content -match "WARNING: An illegal reflective access operation has occurred") {
+              if ($content -match "Unable to ping session service") {
                 Write-Host "Startup completed, stopping process"
                 Stop-Process -Id $process.Id -Force
                 break
