@@ -72,7 +72,7 @@ jobs:
           curl -L -o disk.zip https://archive.openrs2.org/caches/runescape/${{ inputs.cache_version }}/disk.zip
           unzip -o disk.zip -d cache/input/${{ inputs.cache_version }}
     outputs:
-      cache-key: ${{ steps.openrs2-cache.outputs.outputs.cache-primary-key }}
+      cache-key: ${{ steps.openrs2-cache.outputs.cache-primary-key }}
 
   dump-itemfinder:
     runs-on: windows-latest
