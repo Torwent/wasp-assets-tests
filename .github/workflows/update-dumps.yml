@@ -32,11 +32,11 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
           cache: 'maven'
-      - name: Build RuneLite (cache module + dependencies)
+      - name: Build RuneLite (cache)
         run: |
           cd runelite/cache
           mvn -q -DskipTests package
-      - name: Build RuneLite (cache module + dependencies)
+      - name: Build RuneLite (client)
         run: |
           cd runelite/runelite-client
           mvn -q -DskipTests package
@@ -86,10 +86,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v5
+      - name: Restore OpenRS2 cache
+        uses: actions/cache/restore@v4
         with:
           path: C:\Users\runneradmin\.runelite\jagexcache\oldschool\LIVE
+          key: openrs2-${{ inputs.cache_version }}
       - name: Copy cache
         run: |
           Get-ChildItem $env:USERPROFILE\.runelite\jagexcache\oldschool\LIVE
