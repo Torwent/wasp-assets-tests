@@ -2864,11 +2864,17 @@ noted raw karambwan
 cooked karambwan
 noted cooked karambwan
 poison karambwan
+cooked karambwan
 burnt karambwan
 noted burnt karambwan
 raw karambwanji
 karambwan paste
+karambwan paste
+karambwan paste
 karambwanji paste
+karambwanji paste
+karambwan vessel
+noted karambwan vessel
 karambwan vessel
 noted karambwan vessel
 crafting manual
@@ -2937,6 +2943,12 @@ noted raw rabbit
 cooked rabbit
 noted cooked rabbit
 big book of bangs
+symbol
+noted symbol
+symbol
+noted symbol
+symbol
+noted symbol
 symbol
 noted symbol
 bark
@@ -9098,6 +9110,13 @@ noted guthix stole
 zamorak stole
 noted zamorak stole
 purple sweets
+purple sweets
+purple sweets
+purple sweets
+purple sweets
+purple sweets
+purple sweets
+purple sweets
 scroll
 empty sack
 undead chicken
@@ -13291,6 +13310,9 @@ white lily seed
 white lily seed
 snape grass seed
 snape grass seed
+snape grass seed
+snape grass seed
+potato cactus seed
 potato cactus seed
 potato cactus seed
 potato cactus seed
@@ -13300,6 +13322,8 @@ dragonfruit tree seed
 dragonfruit tree seed
 celastrus seed
 celastrus seed
+celastrus seed
+celastrus seed
 attas seed
 attas seed
 attas seed
@@ -13307,10 +13331,13 @@ attas seed
 iasor seed
 iasor seed
 iasor seed
+iasor seed
 kronos seed
 kronos seed
 kronos seed
 kronos seed
+redwood tree seed
+redwood tree seed
 redwood tree seed
 redwood tree seed
 hespori seed
@@ -16276,6 +16303,7 @@ musca-resper poison
 holos-arder poison
 resper-holos poison
 arder-resper poison
+blackstone fragment
 blackstone fragment
 strange icon
 icon segment
