@@ -414,7 +414,15 @@ jobs:
             fi
           done
           rm -rf artifacts/
-
+      - name: Commit changes
+        id: commit
+        run: |
+          if git diff --cached --exit-code; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "Update cache dumps to version ${{ inputs.cache_version }}"
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
       - name: Create Pull Request if changes
         if: steps.commit.outputs.changed == 'true'
         env:
