@@ -414,9 +414,17 @@ jobs:
           for src in "${!files[@]}"; do
             dst="${files[$src]}"
             mkdir -p "$(dirname "$dst")"
-            if [ ! -f "$dst" ] || ! zipcmp -s "$src" "$dst"; then
-              mv "$src" "$dst"
-              git add "$dst"
+
+            if [[ "$src" == *.zip ]]; then
+              if [ ! -f "$dst" ] || ! zipcmp "$src" "$dst"; then
+                mv "$src" "$dst"
+                git add "$dst"
+              fi
+            else
+              if [ ! -f "$dst" ] || ! cmp -s "$src" "$dst"; then
+                mv "$src" "$dst"
+                git add "$dst"
+              fi
             fi
           done
           rm -rf artifacts/
@@ -432,7 +440,6 @@ jobs:
 
             git checkout -b $BRANCH_NAME
             git commit -m "Update cache dumps to version ${{ inputs.cache_version }}"
-
             git push origin $BRANCH_NAME --force
 
             echo "Changes committed and pushed to $BRANCH_NAME."
