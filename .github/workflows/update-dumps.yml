@@ -414,23 +414,34 @@ jobs:
             fi
           done
           rm -rf artifacts/
-      - name: Commit changes
-        id: commit
+
+      - name: Commit, Create Branch, and Push
+        id: branch_push
         run: |
           if git diff --cached --exit-code; then
+            echo "No file changes detected. Skipping commit and PR creation."
             echo "changed=false" >> $GITHUB_OUTPUT
           else
+            BRANCH_NAME="update-${{ inputs.cache_version }}"
+
+            git checkout -b $BRANCH_NAME
             git commit -m "Update cache dumps to version ${{ inputs.cache_version }}"
+
+            git push origin $BRANCH_NAME --force-with-lease
+
+            echo "Changes committed and pushed to $BRANCH_NAME."
             echo "changed=true" >> $GITHUB_OUTPUT
+            echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
           fi
+
       - name: Create Pull Request if changes
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.branch_push.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr create \
             --base main \
-            --head update-${{ inputs.cache_version }} \
+            --head ${{ steps.branch_push.outputs.branch_name }} \
             --title "Update cache dumps to version ${{ inputs.cache_version }}" \
             --body "Automated cache dump update from OpenRS2 archive.
 
