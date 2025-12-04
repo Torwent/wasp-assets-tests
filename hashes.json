@@ -1,8 +1,8 @@
 {
   "finders/house_layout.zip" : "D6FF199D",
   "finders/items/data/hash.txt" : "77DB6CCB",
-  "finders/items/data/id.txt" : "1DA29AD5",
-  "finders/items/data/item.txt" : "6256937C",
+  "finders/items/data/id.txt" : "38B4A1F6",
+  "finders/items/data/item.txt" : "99AEC953",
   "finders/items/items.zip" : "45EF9C07",
   "finders/overheads.zip" : "1F4D08DA",
   "finders/prayer.zip" : "0ADB50ED",
@@ -14,13 +14,13 @@
   "images/mm_resizable_mask.png" : "34785F87",
   "jsons/consumables.json" : "5F2994A1",
   "jsons/gear.json" : "6E7CA610",
-  "jsons/item-definitions.zip" : "D17F8B18",
+  "jsons/item-definitions.zip" : "437F30CE",
   "jsons/monsters" : "E4AC5B2E",
   "jsons/monsters.zip" : "83299037",
   "jsons/weapons.json" : "670C3284",
-  "map/collision.zip" : "D1528652",
-  "map/heightmap.zip" : "36D0737E",
-  "map/map.zip" : "89138FCF",
+  "map/collision.zip" : "819B0BCD",
+  "map/heightmap.zip" : "4C39FAA4",
+  "map/map.zip" : "EA7CB608",
   "map/npcs.zip" : "6C6B1FE2",
-  "map/objects.zip" : "F3A58660"
+  "map/objects.zip" : "3333ECFA"
 }
