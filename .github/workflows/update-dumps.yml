@@ -371,11 +371,15 @@ jobs:
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-jar-with-dependencies.jar net.runelite.cache.SimbaSpriteDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
-      - name: Upload Object Info
+      - name: Zip sprites folder
+        run: |
+            cd cache/output/${{ inputs.cache_version }}/Sprites
+            zip -r sprites.zip .
+      - name: Upload Sprites
         uses: actions/upload-artifact@v4
         with:
           name: sprites
-          path: cache/output/${{ inputs.cache_version }}
+          path: cache/output/${{ inputs.cache_version }}/Sprites/sprites.zip
 
   commit-results:
     runs-on: ubuntu-latest
