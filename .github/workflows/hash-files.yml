@@ -39,7 +39,9 @@ jobs:
       - name: Create hash files
         shell: bash
         run: |
+          echo "Before: $(jq . hashes.json)"
           ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/hash-files.simba
+          echo "After: $(jq . hashes.json)"
 
       - name: Commit hashes.json
         shell: bash
@@ -64,9 +66,7 @@ jobs:
         run: |
           cd ./wasp-data
           while IFS= read -r file; do
-            # Skip empty lines
             [ -z "$file" ] && continue
-            # Make sure the file exists
             if [ ! -f "$file" ]; then
               echo "File not found: $file"
               continue

@@ -22,6 +22,5 @@ begin
     json.AddString(files[i], hash);
   end;
 
-  WriteLn json.Format();
-  json.Save(path + 'hashes.json');
+  json.Save(path + 'hashes.json', [EJSONFormatOption.NO_WHITESPACE, EJSONFormatOption.SINGLE_LINE_OBJ]);
 end.
