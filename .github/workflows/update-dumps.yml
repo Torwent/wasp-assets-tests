@@ -469,7 +469,7 @@ jobs:
             ["artifacts/map/map.zip"]="map/map.zip"
             ["artifacts/map/map-noicons.zip"]="map/map-noicons.zip"
             ["artifacts/objects/objects.zip"]="map/objects.zip"
-            ["artifacts/objects/objects1400.zip"]="map/objects1400.zip"
+            ["artifacts/objects1400/objects1400.zip"]="map/objects1400.zip"
             ["artifacts/collision/collision.zip"]="map/collision.zip"
             ["artifacts/heightmap/heightmap.zip"]="map/heightmap.zip"
             ["artifacts/sprites/sprites.zip"]="sprites/sprites.zip"
