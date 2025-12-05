@@ -467,7 +467,7 @@ jobs:
             ["artifacts/gear/gear.json"]="jsons/gear.json"
             ["artifacts/npcs/npcs.zip"]="map/npcs_helper.zip"
             ["artifacts/map/map.zip"]="map/map.zip"
-            ["artifacts/map/map-noicons.zip"]="map/map-noicons.zip"
+            ["artifacts/map-noicons/map-noicons.zip"]="map/map-noicons.zip"
             ["artifacts/objects/objects.zip"]="map/objects.zip"
             ["artifacts/objects1400/objects1400.zip"]="map/objects1400.zip"
             ["artifacts/collision/collision.zip"]="map/collision.zip"
