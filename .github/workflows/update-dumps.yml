@@ -104,6 +104,7 @@ jobs:
             if (Test-Path "output.log") {
               $content = Get-Content "output.log" -Raw
               if ($content -match "cache itemModelCache thrashing, enlarging to 512 entries") {
+                Start-Sleep -Seconds 10
                 Write-Host "Startup completed, stopping process"
                 Stop-Process -Id $process.Id -Force
                 break
