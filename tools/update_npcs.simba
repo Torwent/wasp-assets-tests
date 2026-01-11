@@ -1,217 +1,240 @@
-{$I SRL-T/osr.simba}
-
 const
-  PATH         = {$macro CURRENT_DIRECTORY};
-  JSONS_PATH   = PATH + 'npcs' + DirectorySeparator;
-  DATA_URL     = 'https://raw.githubusercontent.com/mejrs/data_osrs/master/NPCList_OSRS.json';
-  HELPER_CACHE = PATH + 'npcs_helper' + DirectorySeparator;
-  RESET_CACHE  = True;
+  PATH             = {$MACRO DIR} + '..' + PATH_SEP + 'map' + PATH_SEP;
+  JSONS_PATH       = PATH + 'npcs' + PATH_SEP;
+  DATA_URL         = 'https://raw.githubusercontent.com/mejrs/data_osrs/master/NPCList_OSRS.json';
+  HELPER_CACHE     = PATH + 'npcs_helper' + PATH_SEP;
+  RESET_CACHE      = False;
+  CLEAN_UP_HELPERS = False;
+  CLEAN_UP_NPCS    = False;
+  MAX_PLANE        = 3;
+  MAX_X            = 99;
+  MAX_Y            = 199;
 
 var
-  files: TJSONArray;
+  Unzipped: Boolean = False;
 
-function LoadHelperByID(id: Int32): TJSONObject;
-var
-  jsonFile, str: String;
+//This supports unzipping but simba unzipping is fucking slow...
+//set RESET_CACHE=False and use something else
+procedure FinishedUnzipping(constref result: TASyncUnzipResult);
 begin
-  jsonFile := ToStr(id) + '.json';
-
-  if not FileExists(HELPER_CACHE + jsonFile) then Exit;
-
-  str := ReadFileContents(HELPER_CACHE + jsonFile);
-  if str <> '' then
-  Result.Init(str);
-end;
-
-function LoadHelperByName(name: String): TJSONObject;
-var
-  i: Int32;
-begin
-  for i := 0 to files.High() do
-    if files.getJSONObject(i).getString('name') = name then
-      Exit(files.getJSONObject(i));
-end;
-
-
-function TJSONObject.GetCoordinate(): TPoint;
-begin
-  Result := RSTranslator.RSCoordinate2Coordinate(Point(Self.GetInt('x'), Self.GetInt('y')));
-end;
-
-function TJSONObject.GetChunk(): String;
-begin
-  with RSTranslator.RSCoordinate2Chunk(Point(Self.GetInt('x'), Self.GetInt('y'))) do
-    Result := ToStr(Self.GetInt('p')) + '-' + ToStr(X) + '-' + ToStr(Y);
-end;
-
-procedure TJSONObject.CreateNPC(id: Int32; helper: TJSONObject; coords: TJSONArray);
-var
-  coordinates: TJSONArray;
-begin
-  Self.Init();
-  Self.Put('id', id);
-  Self.Put('name', helper.GetString('name'));
-  Self.Put('level', helper.getString('level'));
-  Self.Put('category', helper.GetInt('category'));
-  Self.Put('minimapdot', helper.getBoolean('minimapdot'));
-  Self.Put('actions', helper.getJSONArray('actions'));
-  Self.Put('size', helper.getJSONArray('size'));
-
-  coordinates.Init();
-  coordinates.Put(coords);
-  Self.Put('coordinates', coordinates);
-  Self.Put('colors', helper.getJSONArray('colors'));
-end;
-
-procedure TJSONArray.CreateCoordinate(coordinate: TPoint);
-begin
-  Self := nil;
-  Self.Init();
-
-  Self.Put(coordinate.X);
-  Self.Put(coordinate.Y);
-end;
-
-procedure TJSONArray.SetupCache();
-var
-  f, content: String;
-  tmp: TJSONObject;
-begin
-  files.Init();
-
-  for f in FindFiles(HELPER_CACHE) do
+  WriteLn 'Finished Unzipping';
+  if not result.Success then
   begin
-    content := ReadFileContents(f);
-    if content = '' then Continue;
-
-    tmp.Init(content);
-    files.Put(tmp);
+    if result.Exception <> '' then
+      raise result.Exception;
+    TerminateScript('Failed to unzip npcs_helper.zip');
   end;
 
-  AddOnTerminate(@files.Free);
+  Unzipped := True;
+end;
+
+type
+  TSingleNPC = record
+    ID: Integer;
+    Plane, X, Y: Int32;
+  end;
+
+  TJoinedNPC = record
+    ID: Integer;
+    Planes, Xs, Ys: TIntegerArray;
+  end;
+
+  TNPCArray = array of TJoinedNPC;
+
+function GetNPC(entry: String): TSingleNPC;
+var
+  id: Integer;
+begin
+  Result := [-1, -1, -1, -1];
+
+  entry := entry.After(', "id": ');
+  id := entry.Before(', ').ExtractInteger();
+  if id = -1 then Exit;
+
+  entry := entry.After('"p": ');
+  Result.Plane := entry.Before(', ').ExtractInteger();
+  if Result.Plane = -1 then Exit;
+
+  entry := entry.After('"x": ');
+  Result.X := entry.Before(', ').ExtractInteger();
+  if Result.X = -1 then Exit;
+
+  entry := entry.After('"y": ');
+  Result.Y := entry.Before(', ').ExtractInteger();
+  if Result.Y = -1 then Exit;
+
+  Result.ID := id;
+end;
+
+function GetHelperData(id: Int32): TJSONObject;
+var
+  filename, content: String;
+begin
+  filename := HELPER_CACHE + ToStr(id) + '.json';
+  if not FileExists(filename) then
+    Exit;
+
+  content := FileRead(filename);
+  if content = '' then
+    Exit;
+
+  Result := new TJSONObject();
+  TJSONParser(Result).Parse(content);
+end;
+
+function Transform(x, y: Int32): TPoint;
+begin
+  Result.X := x * 4;
+  Result.Y := 256 - (y * 4 - 196*256) - 4;
+end;
+
+function GetChunk(x, y: Int32): TPoint;
+begin
+  Result := [x div 64, y div 64];
 end;
 
 var
-  current, npc, final, helper: TJSONObject;
-  data, coords, chunkArr: TJSONArray;
-  i, j, hi, id: Int32;
-  chunkStr, plane, name: String;
-  coordinate: TPoint;
-  idMiss, nameMiss: Int32;
+  i, idx, j, p, x, y, id, hi: Int32;
+  content: String;
+  entries: TStringArray;
+  npc: TSingleNPC;
+  NPCsMap: TMap<Int32, TJoinedNPC>;
+  joinedNPC: TJoinedNPC;
+  json, helper, jsonCoord, jsonCoords: TJSONObject;
+  pt, chunk: TPoint;
+  uniqueIDMap: array of array of array of TIntegerArray;
+  data: array of array of array of TMap<Int32, TPointArray>;
+  chunkContent: String;
 begin
-  ClearDebug();
-  DeleteDirectory(JSONS_PATH, False);
+  ClearSimbaOutput();
+  DirDelete(JSONS_PATH, False);
+  FileDelete(PATH + 'npcs.zip');
 
-  if RESET_CACHE then DeleteDirectory(HELPER_CACHE, False);
+  if RESET_CACHE then
+    DirDelete(HELPER_CACHE, False);
 
-  for i := 0 to RSTranslator.Planes do
-    if not ForceDirectories(JSONS_PATH + ToStr(i)) then
-      TerminateScript('Failed to create: ' + JSONS_PATH + ToStr(i));
+  for i := 0 to MAX_PLANE do
+    if not DirCreate(JSONS_PATH + ToStr(i)) then
+      raise 'Failed to create: ' + JSONS_PATH + ToStr(i);
 
-  if not ForceDirectories(HELPER_CACHE) then
-    TerminateScript('Failed to create: ' + HELPER_CACHE);
+  if not DirCreate(HELPER_CACHE) then
+    raise 'Failed to create: ' + HELPER_CACHE;
 
-  WriteLn('Setting up cache.');
-  files.SetupCache();
-  WriteLn('Finished setting up cache.');
+  WriteLn 'Startup completed!';
 
-  data.Init(GetPage(DATA_URL));
-  AddOnTerminate(@data.Free);
-  final.Init();
+  if DirList(HELPER_CACHE, False).Length <> ZipReadEntries(PATH + 'npcs_helper.zip').Length then
+    Async.FileUnZip(PATH + 'npcs_helper.zip', HELPER_CACHE, @FinishedUnzipping)
+  else
+    Unzipped := True;
 
-  WriteLn('Finished setting up. Unzipping files now.');
-  if RESET_CACHE then UnZipFile(PATH + 'npcs_helper.zip', HELPER_CACHE);
-  WriteLn('Finished unzipping files. Parsing data now.');
+  content := HTTPClient.Get(DATA_URL);
+  entries := content.Split('{"name":', True);
 
-  for i := 0 to hi := data.High() do
+  for i := High(entries) downto 0 do
   begin
-    if (i mod 1000 = 0) then WriteLn(i, '/', hi);
+    npc := GetNPC(entries[i]);
+    if npc.ID = -1 then
+      Continue;
 
-    current := data.GetJSONObject(i);
-
-    id := current.getInt('id');
-
-    helper := LoadHelperByID(id);
-    if helper = nil then
+    j := NPCsMap.IndexOf(npc.ID);
+    if j = -1 then
     begin
-      Inc(idMiss);
-
-      name := current.getString('name');
-      if name = '' then Continue;
-
-      helper := LoadHelperByName(name);
-      if helper = nil then
-      begin
-        Inc(nameMiss);
-        Continue;
-      end;
-    end
-    else
-    begin
-      name := helper.GetString('name');
-      if name = '' then Continue;
-    end;
-
-    coordinate := current.GetCoordinate();
-    chunkStr := current.GetChunk();
-
-    coords.CreateCoordinate(coordinate);
-
-    if not final.Has(chunkStr) then
-    begin
-      chunkArr.Init();
-      final.Put(chunkStr, chunkArr);
-    end
-    else
-      chunkArr := final.getJSONArray(chunkStr);
-
-    npc := nil;
-
-    for j := 0 to chunkArr.High() do
-    begin
-      if chunkArr.getJSONObject(j).getInt('id') <> id then Continue;
-      npc := chunkArr.getJSONObject(j);
-      Break;
-    end;
-
-    if npc <> nil then
-    begin
-      npc.getJSONArray('coordinates').Put(coords);
+      NPCsMap.Value[npc.ID] := [npc.ID, [npc.Plane], [npc.X], [npc.Y]];
       Continue;
     end;
 
-    npc.CreateNPC(id, helper, coords);
-    chunkArr.Put(npc);
+    with NPCsMap.ValueFromIndex[j] do
+      NPCsMap.Value[npc.ID] := [npc.ID, Planes + [npc.Plane], Xs + [npc.X], Ys +[npc.Y]];
   end;
 
-  if RESET_CACHE then RMDir(HELPER_CACHE, True);
+  WriteLn 'Finished mapping online data.';
 
-  WriteLn('Finished parsing data. Saving it to files now.');
-
-  hi := final.Keys().getCount() - 1;
-
-  for i := 0 to hi do
+  while not Unzipped do
   begin
-    if (i mod 200 = 0) then WriteLn(i, '/', hi);
-    chunkStr := final.Keys().GetStrings(i);
-
-    chunkArr := final.getJSONArray(chunkStr);
-
-    plane := chunkStr.Before('-');
-    chunkStr := JSONS_PATH + plane + DirectorySeparator + chunkStr.After('-') + '.json';
-
-    WriteFileContents(
-      chunkStr,
-      chunkArr.ToString()
-        .Replace('\u0020', ' ')
-        .Replace('},{', '},' + LineEnding + '  {')
-        .Replace('[{', '[' + LineEnding + '  {')
-        .Replace('}]', '}' + LineEnding + ']'),
-      False
-    );
+    WriteLn('Waiting unzipping...');
+    Sleep(1000);
   end;
 
-  WriteLn('Finished saving files.');
-  WriteLn('Cache zip is missing ', idMiss, ' ids from the external data.');
-  WriteLn('Failed to match ', nameMiss, ' npcs by name.');
+  SetLength(data, MAX_PLANE+1, MAX_X+1, MAX_Y+1);
+  SetLength(uniqueIDMap, MAX_PLANE+1, MAX_X+1, MAX_Y+1);
+
+  for joinedNPC in NPCsMap.Values do
+    for i := 0 to High(joinedNPC.Planes) do
+    begin
+      p := joinedNPC.Planes[i];
+      x := joinedNPC.Xs[i];
+      y := joinedNPC.Ys[i];
+      chunk := GetChunk(x, y);
+
+      j := data[p, chunk.X, chunk.Y].IndexOf(joinedNPC.ID);
+      if j = -1 then
+        data[p, chunk.X, chunk.Y].Value[joinedNPC.ID] := [Transform(x,y)]
+      else
+        data[p, chunk.X, chunk.Y].Value[joinedNPC.ID] += Transform(x,y);
+
+      if not uniqueIDMap[p, chunk.X, chunk.Y].Contains(joinedNPC.ID) then
+        uniqueIDMap[p, chunk.X, chunk.Y] += joinedNPC.ID;
+    end;
+
+  for p := 0 to MAX_PLANE do
+    for x := 0 to MAX_X do
+      for y := 0 to MAX_Y do
+      begin
+        chunkContent := '[' + LINE_SEP;
+
+        hi := uniqueIDMap[p, x, y].High;
+        for i := 0 to High(uniqueIDMap[p, x, y]) do
+        begin
+          id := uniqueIDMap[p, x, y, i];
+          idx := data[p, x, y].IndexOf(id);
+          if idx = -1 then Continue;
+
+          helper := GetHelperData(id);
+          if helper = nil then Continue;
+
+          json := new TJSONObject();
+          json.AddInt('id', id);
+          json.AddString('name', helper.Item['name'].AsString);
+          json.AddInt('level', helper.Item['level'].AsInt);
+          json.AddInt('category', helper.Item['category'].AsInt);
+          json.AddBool('minimapdot', helper.Item['minimapdot'].AsBool);
+          json.AddArray('actions', helper.Item['actions'].Clone());
+          json.AddArray('size', helper.Item['size'].Clone());
+
+          jsonCoords := new TJSONArray();
+
+          for pt in data[p, x, y].ValueFromIndex[idx] do
+          begin
+            jsonCoord := new TJSONArray();
+            jsonCoord.AddInt('Coord', pt.X);
+            jsonCoord.AddInt('Coord', pt.Y);
+            jsonCoords.AddArray('Coordinate', jsonCoord.Clone());
+          end;
+
+          json.AddArray('coordinates', jsonCoords.Clone());
+          json.AddArray('colors', helper.Item['colors'].Clone());
+
+          chunkContent += ' ' + json.Format([EJSONFormatOption.NO_WHITESPACE, EJSONFormatOption.SINGLE_LINE_ARR, EJSONFormatOption.SINGLE_LINE_OBJ], 0);
+
+          if i < hi then
+            chunkContent += ',';
+          chunkContent += LINE_SEP;
+        end;
+
+        chunkContent += ']';
+        if chunkContent <> ('[' + LINE_SEP + ']') then
+        begin
+          FileWrite(
+            JSONS_PATH + ToStr(p) + PATH_SEP + ToStr(x) + '-' + ToStr(y) + '.json',
+            chunkContent
+          );
+        end;
+      end;
+
+  ZipFiles(PATH + 'npcs.zip', DirList(JSONS_PATH, True));
+
+  if CLEAN_UP_HELPERS then
+    DirDelete(HELPER_CACHE, False);
+  if CLEAN_UP_NPCS then
+    DirDelete(JSONS_PATH, False);
 end.
