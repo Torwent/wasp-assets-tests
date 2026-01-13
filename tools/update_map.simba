@@ -1,30 +1,24 @@
 const
-  PATH: String = {$MACRO DIR} + '..' + PATH_SEP + 'map' + PATH_SEP;
-  MAP_FILES: TStringArray = ['map', 'heightmap', 'collision'];
-  UNZIP_FILES: Boolean = True;
+  MAP_FILES: TStringArray = ['map', 'collision', 'heightmap'];
+  UNZIP_FILES: Boolean = False;
   DELETE_FILES: Boolean = True;
 
 var
+  Path: String := PathNormalize({$MACRO DIR} + '..' + PATH_SEP + 'map' + PATH_SEP);
   Queue, Binned: TStringArray = [];
   Lock: TLock;
 
 procedure Compress(current: String);
 var
   writer: TResourceWriter;
-  filename: String;
-  files: TStringArray;
-  img: TImage;
 begin
   WriteLn('Start compressing: ', current + '.bin');
   writer := new TResourceWriter();
 
-  files := DirList(PATH+current, True);
-  for filename in files do
-  begin
-    if not PathIsFile(filename) then Continue;
-    img := new TImage(filename);
-    writer.AddImage(filename.After(PATH + current + PATH_SEP), img);
-  end;
+  if current = 'heightmap' then
+    writer.AddFiles(PATH+current, '*.png', False)
+  else
+    writer.AddImages(PATH+current, '*.png', False);
 
   if not DirCreate(PATH + 'bins') then
     raise 'Failed to create path: ' + PATH + 'bins';
@@ -69,7 +63,7 @@ begin
       Queue += PATH + 'zips' + PATH_SEP + current + '.zip';
     end;
 
-  timer.Start(15000);
+  timer.Start(14000);
 
   while Queue <> [] do
   begin
@@ -98,6 +92,8 @@ begin
 
   WriteLn('Files to zip: ', ToStr(Binned).Replace(PATH, ''));
 
+
   FileDelete(PATH + 'mapdata.zip');
-  ZipFiles(PATH + 'mapdata.zip', Binned);
+  if ZipFiles(PATH + 'mapdata.zip', Binned) then
+    DirDelete(PATH + 'bins', False);
 end.
