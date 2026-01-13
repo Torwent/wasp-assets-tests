@@ -15,10 +15,10 @@ begin
   WriteLn('Start compressing: ', current + '.bin');
   writer := new TResourceWriter();
 
-  if current = 'heightmap' then
-    writer.AddFiles(PATH+current, '*.png', False)
-  else
-    writer.AddImages(PATH+current, '*.png', False);
+  //if current = 'heightmap' then
+  //  writer.AddFiles(PATH + 'zips' + PATH_SEP + current, '*.png', False)
+  //else
+    writer.AddImages(PATH + 'zips' + PATH_SEP + current, '*.png', False);
 
   if not DirCreate(PATH + 'bins') then
     raise 'Failed to create path: ' + PATH + 'bins';
@@ -59,7 +59,7 @@ begin
     for current in MAP_FILES do
     begin
       WriteLn('Start unzipping: ', current, '.zip');
-      Async.FileUnZip(PATH + 'zips' + PATH_SEP + current + '.zip', PATH + current, @FinishedUnzipping);
+      Async.FileUnZip(PATH + 'zips' + PATH_SEP + current + '.zip', PATH + 'zips' + PATH_SEP + current, @FinishedUnzipping);
       Queue += PATH + 'zips' + PATH_SEP + current + '.zip';
     end;
 
@@ -81,7 +81,7 @@ begin
   begin
     Compress(current);
 
-    while DELETE_FILES and not DirDelete(PATH + current, False) do
+    while DELETE_FILES and not DirDelete(PATH + 'zips' + PATH_SEP + current, False) do
     begin
       WriteLn('Failed to delete dir: ', current);
       Sleep(100);
