@@ -18,8 +18,4 @@ jsons/item-definitions.zip
 jsons/monsters
 jsons/monsters.zip
 jsons/weapons.json
-map/collision.zip
-map/heightmap.zip
-map/map.zip
-map/npcs.zip
-map/objects.zip
+map/mapdata.zip

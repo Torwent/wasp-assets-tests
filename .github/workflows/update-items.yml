@@ -60,21 +60,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
         with:
-          path: ./wasp-data
+          path: ./wasp-assets
           fetch-depth: 2
 
       - name: Generate new item files
         shell: bash
-        run: ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/update_items.simba
+        run: ./Simba-Win64.exe --extractopenssl --run ./wasp-assets/tools/update_items.simba
 
       - name: Create hash files
         shell: bash
-        run: ./Simba-Win64.exe --extractopenssl --run ./wasp-data/tools/hash-files.simba
+        run: ./Simba-Win64.exe --extractopenssl --run ./wasp-assets/tools/hash-files.simba
 
       - name: Commit hash files
         shell: bash
         run: |
-          cd ./wasp-data
+          cd ./wasp-assets
           git config --global user.name "Wasp Bot"
           git config --global user.email "waspbot@waspcripts.com"
           if [[ -n "$(git status --porcelain)" ]]; then
