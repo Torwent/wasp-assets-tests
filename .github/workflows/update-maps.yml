@@ -65,7 +65,7 @@ jobs:
 
       - name: Unzip npc files
         shell: bash
-        run: unzip -o ./wasp-assets/map/zips/npc_helper.zip -d ./wasp-assets/map/zips/npc_helper
+        run: unzip -o ./wasp-assets/map/zips/npcs_helper.zip -d ./wasp-assets/map/zips/npcs_helper
 
       - name: Generate new npc files
         shell: bash
