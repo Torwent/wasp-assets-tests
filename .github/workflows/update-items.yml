@@ -1,10 +1,13 @@
 name: Update Items
 
 on:
-  workflow_run:
-    workflows: ["Update Hashes"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+    paths:
+      - 'finders/items/data/item.txt'
+      - 'finders/items/data/id.txt'
+      - 'finders/items/items-imgs.zip'
   workflow_dispatch:
 
 jobs:
@@ -84,3 +87,8 @@ jobs:
           else
             echo "No changes to commit."
           fi
+          
+  call-workflow:
+      if: ${{ github.repository_owner == 'WaspScripts' }
+      needs: process-items
+      uses: ./.github/workflows/hash-files.yml

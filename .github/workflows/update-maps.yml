@@ -1,10 +1,13 @@
 name: Update Maps
 
 on:
-  workflow_run:
-    workflows: ["Update Hashes"]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+    paths:
+      - 'map/zips/map.zip'
+      - 'map/zips/heightmap.zip'
+      - 'map/zips/collision.zip'
   workflow_dispatch:
 
 jobs:
@@ -96,3 +99,8 @@ jobs:
           else
             echo "No changes to commit."
           fi
+  
+  call-workflow:
+      if: ${{ github.repository_owner == 'WaspScripts' }
+      needs: process-maps
+      uses: ./.github/workflows/hash-files.yml
