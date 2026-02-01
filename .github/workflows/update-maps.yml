@@ -63,9 +63,13 @@ jobs:
           path: ./wasp-assets
           fetch-depth: 2
 
-      - name: Unzip npc files
+      - name: Unzip map files
         shell: bash
-        run: unzip -o ./wasp-assets/map/zips/npcs_helper.zip -d ./wasp-assets/map/zips/npcs_helper
+        run: |
+            unzip -o ./wasp-assets/map/zips/collision.zip -d ./wasp-assets/map/zips/collision
+            unzip -o ./wasp-assets/map/zips/heightmap.zip -d ./wasp-assets/map/zips/heightmap
+            unzip -o ./wasp-assets/map/zips/map.zip -d ./wasp-assets/map/zips/map
+            unzip -o ./wasp-assets/map/zips/npcs_helper.zip -d ./wasp-assets/map/zips/npcs_helper
 
       - name: Generate new npc files
         shell: bash
