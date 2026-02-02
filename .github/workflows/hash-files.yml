@@ -91,7 +91,7 @@ jobs:
         shell: bash
         run: |
           BODY=$(jq -nc \
-            --arg title "Website Update" \
+            --arg title "Assets Update" \
             --arg desc "${{ github.event.head_commit.message }}" \
             --arg url  "https://github.com/WaspScripts/wasp-webapp/commit/${{ github.event.head_commit.id }}" \
             --arg foot "Author: ${{ github.event.head_commit.author.name }}" \
