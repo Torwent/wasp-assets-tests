@@ -89,6 +89,6 @@ jobs:
           fi
           
   call-workflow:
-      if: ${{ github.repository_owner == 'WaspScripts' }
+      if: ${{ github.repository_owner == 'WaspScripts' }}
       needs: process-items
       uses: ./.github/workflows/hash-files.yml
