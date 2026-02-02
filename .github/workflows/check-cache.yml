@@ -3,7 +3,7 @@ name: Check newest Oldschool cache id
 on:
     schedule:
         - cron: 0 12 * * 3  # Every Wednesday at 12:00 UTC
-        - cron: 0 */6 * * *  # Every 6 hours
+        - cron: 0 */6 * * * # Every 6 hours
     workflow_dispatch:
 
 jobs:
