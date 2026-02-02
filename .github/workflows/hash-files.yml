@@ -50,7 +50,7 @@ jobs:
         run: |
           cd ./wasp-assets
           git config --global user.name "Wasp Bot"
-          git config --global user.email "waspbot@waspcripts.com"
+          git config --global user.email "waspbot@waspscripts.com"
           if [[ -n "$(git status --porcelain)" ]]; then
             git add -A
             git commit -m "Automatic hash files update"

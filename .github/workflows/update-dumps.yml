@@ -451,7 +451,7 @@ jobs:
       - name: Set up Git
         run: |
           git config --global user.name "Wasp Bot"
-          git config --global user.email "waspbot@waspcripts.com"
+          git config --global user.email "waspbot@waspscripts.com"
       - name: Download all dump artifacts
         uses: actions/download-artifact@v4
         with:
