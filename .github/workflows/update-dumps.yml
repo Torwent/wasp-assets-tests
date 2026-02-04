@@ -35,11 +35,11 @@ jobs:
       - name: Build RuneLite (cache)
         run: |
           cd runelite/cache
-          mvn -q -DskipTests package
+          gradle assemble -x test -q
       - name: Build RuneLite (client)
         run: |
           cd runelite/runelite-client
-          mvn -q -DskipTests package
+          gradle assemble -x test -q
       - name: Copy to staging
         run: |
           mkdir -p staging
