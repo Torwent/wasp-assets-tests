@@ -31,7 +31,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-          cache: 'maven'
+          cache: 'gradle'
       - name: Build RuneLite (cache)
         run: |
           cd runelite/cache
