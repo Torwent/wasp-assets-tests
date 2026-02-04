@@ -36,7 +36,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: ./runelite/wrapper
+          gradle-version: ./runelite/gradle/wrapper
           
       - name: Build RuneLite (cache)
         run: |
