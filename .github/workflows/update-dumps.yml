@@ -30,16 +30,16 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
           cache: 'gradle'
       - name: Build RuneLite (cache)
         run: |
           cd runelite/cache
-          gradle assemble -x test -q
+          ./gradlew assemble -x test -q
       - name: Build RuneLite (client)
         run: |
           cd runelite/runelite-client
-          gradle assemble -x test -q
+          ./gradlew assemble -x test -q
       - name: Copy to staging
         run: |
           mkdir -p staging
