@@ -26,7 +26,7 @@ jobs:
           repository: 'Torwent/runelite'
           ref: 'main'
           path: ./runelite
-      - name: Setup Java 11
+      - name: Setup Java 21
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -34,12 +34,12 @@ jobs:
           cache: 'gradle'
       - name: Build RuneLite (cache)
         run: |
-          cd runelite/cache
-          gradle assemble -x test -q
+          cd runelite
+          ./gradlew :cache:assemble -x test -q
       - name: Build RuneLite (client)
         run: |
-          cd runelite/runelite-client
-          gradle assemble -x test -q
+          cd runelite
+          ./gradlew :runelite-client:assemble -x test -q
       - name: Copy to staging
         run: |
           mkdir -p staging
