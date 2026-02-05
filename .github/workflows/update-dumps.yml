@@ -154,9 +154,7 @@ jobs:
           path: cache/input/${{ inputs.cache_version }}
           key: openrs2-cache-${{ inputs.cache_version }}-
       - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
-        with:
-          limit-access-to-actor: true
+        uses: owenthereal/action-upterm@v1
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
