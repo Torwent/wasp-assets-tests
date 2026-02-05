@@ -41,7 +41,7 @@ jobs:
       - name: Build RuneLite (client)
         run: |
           cd runelite
-          ./gradlew --build-cache :client:assemble -x test -x javadoc -q
+          ./gradlew --build-cache :client:assemble -x test -x javadoc
       - name: Copy to staging
         run: |
           mkdir -p staging
@@ -99,11 +99,25 @@ jobs:
           Copy-Item -Recurse -Force "tools/preferences/*.dat" $runeliteCacheDir
       - name: Run RuneLite (java)
         run: |
+          $timeoutSeconds = 600
           $jar = Get-ChildItem runelite-jars -Filter "client-*-SNAPSHOT-shaded.jar" | Select-Object -First 1
           if (-not $jar) { Write-Error "Shaded jar not found"; exit 1 }
           Write-Host $jar.Name
-          $process = Start-Process -FilePath "java" -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
+
+          $process = Start-Process -FilePath "java" `
+            -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
+            -NoNewWindow -PassThru `
+            -RedirectStandardOutput "output.log" `
+            -RedirectStandardError "error.log"
+
+          $sw = [System.Diagnostics.Stopwatch]::StartNew()
           while (-not $process.HasExited) {
+            if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
+              Write-Error "Startup phase timed out after 10 minutes"
+              Stop-Process -Id $process.Id -Force
+              exit 1
+            }
+
             if (Test-Path "output.log") {
               $content = Get-Content "output.log" -Raw
               if ($content -match "cache itemModelCache thrashing, enlarging to 512 entries") {
@@ -113,11 +127,28 @@ jobs:
                 break
               }
             }
+
+            Start-Sleep -Seconds 2
           }
+
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
-          $process = Start-Process -FilePath "java" -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
+
+          # ---- Second run ----
+          $process = Start-Process -FilePath "java" `
+            -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
+            -NoNewWindow -PassThru `
+            -RedirectStandardOutput "output.log" `
+            -RedirectStandardError "error.log"
+
+          $sw = [System.Diagnostics.Stopwatch]::StartNew()
           while (-not $process.HasExited) {
+            if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
+              Write-Error "ItemFinder phase timed out after 10 minutes"
+              Stop-Process -Id $process.Id -Force
+              exit 1
+            }
+
             if (Test-Path "output.log") {
               $content = Get-Content "output.log" -Raw
               if ($content -match "ItemFinder completed") {
@@ -126,7 +157,10 @@ jobs:
                 break
               }
             }
+
+            Start-Sleep -Seconds 2
           }
+
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
       - name: Upload ItemFinder
