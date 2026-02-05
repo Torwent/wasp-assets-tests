@@ -42,7 +42,7 @@ jobs:
         run: |
           cd runelite
           ./gradlew --build-cache :client:assemble -x test -x javadoc -q
-          jar -tf client-*-SNAPSHOT-shaded.jar | findstr "ItemFinder"
+          jar -tf client-*-SNAPSHOT-shaded.jar | grep -F ItemFinder
       - name: Copy to staging
         run: |
           mkdir -p staging
