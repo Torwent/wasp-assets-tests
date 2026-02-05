@@ -42,7 +42,7 @@ jobs:
         run: |
           cd runelite
           ./gradlew --build-cache :cache:fatJar -x test -x javadoc -q
-          ls cache/build/libs
+          tree -L 4
       - name: Build RuneLite (client)
         run: |
           cd runelite
