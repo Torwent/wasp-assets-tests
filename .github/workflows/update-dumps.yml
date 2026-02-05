@@ -41,8 +41,7 @@ jobs:
       - name: Build RuneLite (cache)
         run: |
           cd runelite
-          ./gradlew --build-cache :cache:fatJar -x test -x javadoc -q
-          tree -L 4
+          ./gradlew --build-cache :cache:assemble -x test -x javadoc -q
       - name: Build RuneLite (client)
         run: |
           cd runelite
@@ -50,7 +49,7 @@ jobs:
       - name: Copy to staging
         run: |
           mkdir -p staging
-          find runelite -name "cache-*-SNAPSHOT.jar" -exec cp {} staging/ \;
+          find runelite -name "cache-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
           find runelite -name "client-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -161,7 +160,7 @@ jobs:
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaItemDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaItemDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
           cd cache/output/${{ inputs.cache_version }}/items
           zip -r items.zip ./*.json
@@ -193,7 +192,7 @@ jobs:
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaGearDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaGearDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Items
         uses: actions/upload-artifact@v4
@@ -223,7 +222,7 @@ jobs:
       - name: Run SimbaCollisionMapDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaCollisionMapDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaCollisionMapDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Collision Maps
         uses: actions/upload-artifact@v4
@@ -253,7 +252,7 @@ jobs:
       - name: Run SimbaHeightMapDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaHeightMapDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaHeightMapDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Height Maps
         uses: actions/upload-artifact@v4
@@ -283,7 +282,7 @@ jobs:
       - name: Run SimbaMapImageDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaMapImageDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaMapImageDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Map Images
         uses: actions/upload-artifact@v4
@@ -313,7 +312,7 @@ jobs:
       - name: Run SimbaMapImageDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaMapImageDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaMapImageDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output -noicons
       - name: Upload Map Images
         uses: actions/upload-artifact@v4
@@ -343,7 +342,7 @@ jobs:
       - name: Run SimbaNPCDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaNPCDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaNPCDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Zip NPCs folder
         run: |
@@ -377,7 +376,7 @@ jobs:
       - name: Run SimbaObjectInfoDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaObjectInfoDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaObjectInfoDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Object Info
         uses: actions/upload-artifact@v4
@@ -407,7 +406,7 @@ jobs:
       - name: Run Simba1400ObjectInfoDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.Simba1400ObjectInfoDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.Simba1400ObjectInfoDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Object Info
         uses: actions/upload-artifact@v4
@@ -437,7 +436,7 @@ jobs:
       - name: Run SimbaSpriteDumper (java)
         run: |
           mkdir -p cache/output
-          java -cp staging/cache-*-SNAPSHOT.jar net.runelite.cache.SimbaSpriteDumper \
+          java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaSpriteDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Zip sprites folder
         run: |
