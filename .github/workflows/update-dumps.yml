@@ -45,7 +45,7 @@ jobs:
       - name: Build RuneLite (client)
         run: |
           cd runelite
-          ./gradlew --build-cache :runelite-client:assemble -x test -q
+          ./gradlew --build-cache :client:assemble -x test -q
       - name: Copy to staging
         run: |
           mkdir -p staging
