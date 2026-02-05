@@ -103,7 +103,8 @@ jobs:
           Copy-Item -Recurse -Force "tools/preferences/*.dat" $runeliteCacheDir
       - name: Run RuneLite (java)
         run: |
-          $jar = Get-ChildItem runelite-jars -Filter "*-shaded.jar" | Select-Object -First 1
+          $jar = Get-ChildItem runelite-jars -Filter "client-*-shaded.jar" | Select-Object -First 1
+          Write-Host $jar.Name
           if (-not $jar) { Write-Error "Shaded jar not found"; exit 1 }
           $process = Start-Process -FilePath "java" -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName -NoNewWindow -PassThru -RedirectStandardOutput "output.log" -RedirectStandardError "error.log"
           while (-not $process.HasExited) {
