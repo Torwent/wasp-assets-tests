@@ -41,7 +41,8 @@ jobs:
       - name: Build RuneLite (client)
         run: |
           cd runelite
-          ./gradlew --build-cache :client:assemble -x test -x javadoc
+          ./gradlew --build-cache :client:assemble -x test -x javadoc -q
+          jar -tf client-*-SNAPSHOT-shaded.jar | findstr "ItemFinder"
       - name: Copy to staging
         run: |
           mkdir -p staging
