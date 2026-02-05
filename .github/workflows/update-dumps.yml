@@ -18,7 +18,7 @@ run-name: Update Dumps for OpenRS2 cache version ${{ inputs.cache_version }}
 
 jobs:
   build-runelite:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout RuneLite repository
         uses: actions/checkout@v5
