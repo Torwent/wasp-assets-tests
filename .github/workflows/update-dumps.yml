@@ -49,7 +49,8 @@ jobs:
       - name: Copy to staging
         run: |
           mkdir -p staging
-          find runelite -name "*-shaded.jar" -exec cp {} staging/ \;
+          find runelite -name "cache-*-SNAPSHOT-jar-with-dependencies.jar" -exec cp {} staging/ \;
+          find runelite -name "client-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
