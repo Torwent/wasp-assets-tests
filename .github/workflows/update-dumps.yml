@@ -41,7 +41,7 @@ jobs:
       - name: Build RuneLite (cache)
         run: |
           cd runelite
-          ./gradlew --build-cache :cache:assemble -x test -q
+          ./gradlew --build-cache :cache:fatJar -x test -q
       - name: Build RuneLite (client)
         run: |
           cd runelite
