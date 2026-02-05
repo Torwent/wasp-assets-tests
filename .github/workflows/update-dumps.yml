@@ -37,11 +37,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: wrapper
-          
+   
       - name: Build RuneLite (cache)
         run: |
-          cd runelite/cache
-          gradle assemble -x test -q
+          cd runelite
+          ./gradlew --build-cache ':buildAll'
       - name: Build RuneLite (client)
         run: |
           cd runelite/runelite-client
