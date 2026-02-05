@@ -37,11 +37,11 @@ jobs:
       - name: Build RuneLite (cache)
         run: |
           cd runelite
-          ./gradlew --build-cache :cache:fatJar -x test -q
+          ./gradlew --build-cache :cache:fatJar -x test -x javadoc -q
       - name: Build RuneLite (client)
         run: |
           cd runelite
-          ./gradlew --build-cache :client:assemble -x test -q
+          ./gradlew --build-cache :client:assemble -x test -x javadoc -q
       - name: Copy to staging
         run: |
           mkdir -p staging
