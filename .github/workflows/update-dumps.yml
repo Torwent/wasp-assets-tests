@@ -79,7 +79,7 @@ jobs:
 
   dump-itemfinder:
     runs-on: windows-latest
-    needs: [build-runelite, fetch-openrs2]
+    needs: build-runelite
     steps:
       - name: Checkout RuneLite repository
         uses: actions/checkout@v5
@@ -115,6 +115,8 @@ jobs:
           while (-not $process.HasExited) {
             if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
               Write-Error "Startup phase timed out after 10 minutes"
+              Get-Content "output.log" -ErrorAction SilentlyContinue
+              Get-Content "error.log" -ErrorAction SilentlyContinue
               Stop-Process -Id $process.Id -Force
               exit 1
             }
@@ -135,7 +137,6 @@ jobs:
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
 
-          # ---- Second run ----
           $process = Start-Process -FilePath "java" `
             -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
             -NoNewWindow -PassThru `
@@ -146,6 +147,8 @@ jobs:
           while (-not $process.HasExited) {
             if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
               Write-Error "ItemFinder phase timed out after 10 minutes"
+              Get-Content "output.log" -ErrorAction SilentlyContinue
+              Get-Content "error.log" -ErrorAction SilentlyContinue
               Stop-Process -Id $process.Id -Force
               exit 1
             }
