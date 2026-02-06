@@ -28,7 +28,7 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "Manual run detected."
             echo "changed=true" >> $GITHUB_OUTPUT
-          elif git diff --name-only ${{ github.event.workflow_run.head_sha }}^ ${{ github.event.workflow_run.head_sha }} \
+          elif git diff --name-only ${{ github.event.workflow_run.head_sha }}~1 ${{ github.event.workflow_run.head_sha }} \
               | grep -Eq '^(finders/items/data/item.txt|finders/items/data/id.txt|finders/items/items-imgs.zip)$'; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
@@ -87,7 +87,7 @@ jobs:
           else
             echo "No changes to commit."
           fi
-          
+
   call-workflow:
       if: ${{ github.repository_owner == 'WaspScripts' }}
       needs: process-items
