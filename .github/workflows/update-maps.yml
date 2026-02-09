@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check if item files changed
+      - name: Check if map files changed
         id: file_check
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -100,7 +100,7 @@ jobs:
           git config --global user.email "waspbot@waspscripts.com"
           if [[ -n "$(git status --porcelain)" ]]; then
             git add -A
-            git commit -m "Automatic items files update"
+            git commit -m "Automatic map files update"
             git push
           else
             echo "No changes to commit."
