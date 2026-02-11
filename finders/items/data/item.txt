@@ -672,7 +672,6 @@ unidentified liquid
 nitroglycerin
 ground charcoal
 mixed chemicals
-mixed chemicals
 chemical compound
 arcenia root
 vase
@@ -949,7 +948,6 @@ muddy key
 noted muddy key
 sinister key
 noted sinister key
-coins
 coins
 coins
 coins
@@ -1417,7 +1415,6 @@ soul talisman
 nature talisman
 noted nature talisman
 archery ticket
-weapon poison
 sea slug
 damp sticks
 dry sticks
@@ -1436,8 +1433,6 @@ rock
 orb of light
 oily cloth
 piece of railing
-paladin's badge
-paladin's badge
 paladin's badge
 witch's cat
 doll of iban
@@ -1504,22 +1499,6 @@ seasoned sardine
 noted seasoned sardine
 fluffs' kitten
 pet kitten
-pet kitten
-pet kitten
-pet kitten
-pet kitten
-pet kitten
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
-pet cat
 pet cat
 doogle leaves
 noted doogle leaves
@@ -1537,7 +1516,6 @@ oily fishing rod
 miscellaneous key
 noted miscellaneous key
 grip's keyring
-buchu seed
 dusty key
 jail key
 ring mould
@@ -1742,7 +1720,6 @@ noted bronze wire
 silver necklace
 silver cup
 silver cup
-silver bottle
 silver bottle
 silver book
 silver needle
@@ -2178,30 +2155,10 @@ worm batta
 noted worm batta
 toad batta
 noted toad batta
-unfinished batta
-noted unfinished batta
 cheese+tom batta
 noted cheese+tom batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
-unfinished batta
-noted unfinished batta
 fruit batta
 noted fruit batta
-unfinished batta
-noted unfinished batta
 vegetable batta
 noted vegetable batta
 pizza base
@@ -2310,11 +2267,9 @@ unusual armour
 damaged dagger
 tattered eye patch
 vial
-vial
 ground bat bones
 noted ground bat bones
 toban's gold
-potion
 magic ogre potion
 spell scroll
 shaman robe
@@ -2338,8 +2293,6 @@ saradomin staff
 guthix staff
 zamorak staff
 bronze key
-wig
-buchu seed
 wig
 key print
 paste
@@ -2428,8 +2381,6 @@ red dragon leather
 noted red dragon leather
 black dragon leather
 noted black dragon leather
-logs
-buchu seed
 dragon chainbody
 rotten tomato
 noted rotten tomato
@@ -2453,7 +2404,6 @@ adamant fire arrow
 adamant fire arrow (lit)
 rune fire arrow
 rune fire arrow (lit)
-bronze fire arrow
 bronze fire arrow
 bronze fire arrow
 bronze fire arrow
@@ -2779,16 +2729,7 @@ mime gloves
 mime boots
 strange box
 bronze javelin tips
-bronze javelin tips
-bronze javelin tips
-bronze javelin tips
 iron javelin tips
-iron javelin tips
-iron javelin tips
-iron javelin tips
-steel javelin tips
-steel javelin tips
-steel javelin tips
 steel javelin tips
 mithril javelin tips
 black dart
@@ -2827,10 +2768,7 @@ jogre bones
 noted jogre bones
 burnt jogre bones
 pasty jogre bones
-pasty jogre bones
 marinated j' bones
-pasty jogre bones
-pasty jogre bones
 marinated j' bones
 noted granite shield
 prison key
@@ -2904,7 +2842,6 @@ noted limestone
 quicklime
 pot of quicklime
 ground sulphur
-barrel
 noted barrel
 barrel bomb
 barrel of coal tar
@@ -2922,11 +2859,8 @@ noted symbol
 bark
 noted bark
 man
-mithril javelin tips
 farmer
-mithril javelin tips
 warrior woman
-mithril javelin tips
 rogue
 adamant javelin tips
 guard
@@ -3131,11 +3065,6 @@ noted guthix plateskirt
 noted gilded plateskirt
 flamtaer hammer
 noted flamtaer hammer
-shoe
-shoe
-shoe
-shoe
-shoe
 shoe
 fremennik
 unstrung lyre
@@ -3345,20 +3274,8 @@ iron sickle
 noted iron sickle
 ghrim's book
 amethyst broad bolts
-adamant javelin tips
-adamant javelin tips
-adamant javelin tips
-rune javelin tips
-rune javelin tips
-rune javelin tips
 rune javelin tips
 dragon javelin tips
-dragon javelin tips
-dragon javelin tips
-dragon javelin tips
-javelin shaft
-javelin shaft
-javelin shaft
 javelin shaft
 amethyst bolt tips
 amylase crystal
@@ -3366,20 +3283,10 @@ amylase crystal
 amylase crystal
 amylase crystal
 amethyst javelin tips
-amethyst javelin tips
-amethyst javelin tips
-grape seed
-grape seed
-grape seed
 grape seed
 wilderness sword
 western banner
 platinum token
-platinum token
-platinum token
-platinum token
-zulrah's scales
-zulrah's scales
 zulrah's scales
 zulrah's scales
 hardy gout tuber
@@ -3637,14 +3544,10 @@ petition form
 bedsheet
 bedsheet
 bucket of slime
-raw beef
-noted raw beef
 raw chicken
 noted raw chicken
 cooked chicken
 noted cooked chicken
-cooked meat
-noted cooked meat
 female h.a.m.
 male h.a.m.
 ham shirt
@@ -3843,15 +3746,11 @@ rope
 noted rope
 pole
 bearhead
-decorative sword
 decorative armour
 decorative armour
-decorative helm
 decorative shield
-decorative sword
 decorative armour
 decorative armour
-decorative helm
 decorative shield
 castlewars hood
 castlewars cloak
@@ -4310,49 +4209,24 @@ goblin symbol book
 silverware
 peace treaty
 mining helmet
-mining helmet
 noted mining helmet
 bone spear
 noted bone spear
 bone club
 noted bone club
 minecart ticket
-minecart ticket
-minecart ticket
-minecart ticket
-woven top
-noted woven top
-woven top
-noted woven top
 woven top
 noted woven top
 shirt
 noted shirt
-shirt
-noted shirt
-shirt
-noted shirt
-trousers
-noted trousers
-trousers
-noted trousers
 trousers
 noted trousers
 shorts
 noted shorts
-shorts
-noted shorts
-shorts
-noted shorts
-skirt
-noted skirt
-skirt
-noted skirt
 skirt
 noted skirt
 dwarf
 noted dwarf
-dwarven battleaxe
 dwarven battleaxe
 dwarven battleaxe
 dwarven battleaxe
@@ -4366,13 +4240,6 @@ meeting notes
 exquisite clothes
 master farmer
 bird nest
-bird nest
-bird nest
-bird nest
-bird nest
-bird nest
-bird's egg
-bird's egg
 bird's egg
 varrock armour
 sea snake
@@ -4391,145 +4258,37 @@ whiteberry seed
 poison ivy seed
 yew seed
 acorn
-acorn
-acorn
-acorn
 willow seed
 maple seed
-maple seed
-maple seed
-maple seed
-magic seed
-magic seed
-magic seed
 magic seed
 spirit seed
-spirit seed
-spirit seed
-spirit seed
-marigold seed
-marigold seed
-marigold seed
-marigold seed
 sweetcorn seed
 watermelon seed
 strawberry seed
 tomato seed
 cabbage seed
-cabbage seed
-cabbage seed
-cabbage seed
-onion seed
-onion seed
-onion seed
 onion seed
 potato seed
 barley seed
-barley seed
-barley seed
-barley seed
 seeds
 jute seed
-jute seed
-jute seed
-jute seed
-hammerstone seed
-hammerstone seed
-hammerstone seed
 hammerstone seed
 asgarnian seed
-asgarnian seed
-asgarnian seed
-asgarnian seed
-yanillian seed
-yanillian seed
-yanillian seed
 yanillian seed
 krandorian seed
-krandorian seed
-krandorian seed
-krandorian seed
 wildblood seed
-wildblood seed
-wildblood seed
-wildblood seed
-nasturtium seed
-nasturtium seed
-nasturtium seed
-nasturtium seed
-guam seed
-guam seed
-guam seed
 guam seed
 apple tree seed
-apple tree seed
-apple tree seed
-apple tree seed
-banana tree seed
-banana tree seed
-banana tree seed
 banana tree seed
 orange tree seed
-orange tree seed
-orange tree seed
-orange tree seed
-curry tree seed
-curry tree seed
-curry tree seed
 curry tree seed
 pineapple seed
 papaya tree seed
-papaya tree seed
-papaya tree seed
-papaya tree seed
-palm tree seed
-palm tree seed
-palm tree seed
 palm tree seed
 calquat tree seed
-calquat tree seed
-calquat tree seed
-calquat tree seed
-mushroom spore
-mushroom spore
-mushroom spore
 mushroom spore
 cactus seed
-cactus seed
-cactus seed
-cactus seed
-limpwurt seed
-limpwurt seed
-limpwurt seed
-limpwurt seed
 belladonna seed
-belladonna seed
-belladonna seed
-belladonna seed
-cactus seed
-belladonna seed
-mushroom spore
-apple tree seed
-banana tree seed
-orange tree seed
-curry tree seed
-papaya tree seed
-palm tree seed
-calquat tree seed
-guam seed
-barley seed
-jute seed
-hammerstone seed
-asgarnian seed
-yanillian seed
-krandorian seed
-wildblood seed
-acorn
-maple seed
-magic seed
-spirit seed
-onion seed
-cabbage seed
 gardening trowel
 noted gardening trowel
 spade handle
@@ -4785,7 +4544,6 @@ alchemical notes
 tin
 tin
 tin
-magnet
 grain
 fox
 chicken
@@ -5285,14 +5043,9 @@ ghostly gloves
 ghostly cloak
 kelda seed
 kelda hops
-kelda seed
-kelda seed
-kelda seed
-kelda seed
 kelda stout
 square stone
 square stone
-letter
 a chair
 beer glass
 noted coconut milk
@@ -5613,7 +5366,6 @@ white tree sapling
 ring of charos(a)
 rune shards
 rune dust
-plant cure
 white tree fruit
 compost potion(4)
 noted compost potion(4)
@@ -5637,10 +5389,6 @@ pink rose seed
 pink rose seed
 pink rose seed
 pink rose seed
-vine seed
-vine seed
-vine seed
-vine seed
 delphinium seed
 delphinium seed
 delphinium seed
@@ -6138,8 +5886,6 @@ fried onions
 noted fried onions
 chopped tuna
 noted chopped tuna
-sweetcorn
-noted sweetcorn
 burnt egg
 noted burnt egg
 burnt onion
@@ -6160,24 +5906,6 @@ canister
 cannon ball
 ramrod
 repair plank
-stripy pirate shirt
-noted stripy pirate shirt
-pirate bandana
-noted pirate bandana
-pirate leggings
-noted pirate leggings
-stripy pirate shirt
-noted stripy pirate shirt
-pirate bandana
-noted pirate bandana
-pirate leggings
-noted pirate leggings
-stripy pirate shirt
-noted stripy pirate shirt
-pirate bandana
-noted pirate bandana
-pirate leggings
-noted pirate leggings
 lucky cutlass
 harry's cutlass
 rapier
@@ -6186,10 +5914,6 @@ book o' piracy
 cannon barrel
 broken cannon
 cannon balls
-tacks
-tacks
-tacks
-tacks
 tacks
 braindeath 'rum'
 dragon 2h sword
@@ -6200,14 +5924,10 @@ pie recipe book
 noted pie recipe book
 part mud pie
 noted part mud pie
-part mud pie
-noted part mud pie
 raw mud pie
 noted raw mud pie
 mud pie
 noted mud pie
-part garden pie
-noted part garden pie
 part garden pie
 noted part garden pie
 raw garden pie
@@ -6218,16 +5938,12 @@ half a garden pie
 noted half a garden pie
 part fish pie
 noted part fish pie
-part fish pie
-noted part fish pie
 raw fish pie
 noted raw fish pie
 fish pie
 noted fish pie
 half a fish pie
 noted half a fish pie
-part admiral pie
-noted part admiral pie
 part admiral pie
 noted part admiral pie
 raw admiral pie
@@ -6238,16 +5954,12 @@ half an admiral pie
 noted half an admiral pie
 part wild pie
 noted part wild pie
-part wild pie
-noted part wild pie
 raw wild pie
 noted raw wild pie
 wild pie
 noted wild pie
 half a wild pie
 noted half a wild pie
-part summer pie
-noted part summer pie
 part summer pie
 noted part summer pie
 raw summer pie
@@ -6364,7 +6076,6 @@ draynor skull
 magic secateurs
 queen's secateurs
 symptoms list
-bird nest
 paddle
 noted paddle
 mole claw
@@ -6713,7 +6424,6 @@ ram skull
 unicorn bone
 unicorn bone
 giant rat bone
-giant rat bone
 giant bat wing
 giant bat wing
 wolf bone
@@ -7022,7 +6732,6 @@ dartboard
 archery target
 oak prize chest
 teak prize chest
-mahogany chest
 exit portal
 decorative rock
 pond
@@ -7131,7 +6840,6 @@ silverlight
 excalibur
 darklight
 anti-dragon shield
-amulet of glory
 king arthur
 elena
 giant dwarf
@@ -7310,35 +7018,20 @@ noted bagged roses
 construction guide
 rune heraldic helm
 dragon bolts (unf)
-rune heraldic helm
 dragon bolts (unf)
-rune heraldic helm
 dragon bolts (unf)
-rune heraldic helm
 dragon bolts (unf)
-rune heraldic helm
 dragon bolts
-rune heraldic helm
 dragon bolts
-rune heraldic helm
 dragon bolts
-rune heraldic helm
 dragon bolts
-rune heraldic helm
 dragon bolts (p)
-rune heraldic helm
 dragon bolts (p)
-rune heraldic helm
 dragon bolts (p)
-rune heraldic helm
 dragon bolts (p)
-rune heraldic helm
 opal dragon bolts
-rune heraldic helm
 opal dragon bolts
-rune heraldic helm
 opal dragon bolts
-rune heraldic helm
 opal dragon bolts
 crude chair
 noted crude chair
@@ -7528,35 +7221,20 @@ banner
 sapphire dragon bolts
 steel heraldic helm
 emerald dragon bolts
-steel heraldic helm
 emerald dragon bolts
-steel heraldic helm
 emerald dragon bolts
-steel heraldic helm
 emerald dragon bolts
-steel heraldic helm
 ruby dragon bolts
-steel heraldic helm
 ruby dragon bolts
-steel heraldic helm
 ruby dragon bolts
-steel heraldic helm
 ruby dragon bolts
-steel heraldic helm
 diamond dragon bolts
-steel heraldic helm
 diamond dragon bolts
-steel heraldic helm
 diamond dragon bolts
-steel heraldic helm
 diamond dragon bolts
-steel heraldic helm
 dragonstone dragon bolts
-steel heraldic helm
 dragonstone dragon bolts
-steel heraldic helm
 dragonstone dragon bolts
-steel heraldic helm
 dragonstone dragon bolts
 rune kiteshield
 onyx dragon bolts
@@ -7655,10 +7333,6 @@ mithril defender
 adamant defender
 rune defender
 warrior guild token
-warrior guild token
-warrior guild token
-warrior guild token
-warrior guild token
 defensive shield
 shot
 18lb shot
@@ -7733,7 +7407,6 @@ rum
 monkey
 blue monkey
 red monkey
-pirate bandana
 pirate hat
 pieces of eight
 blue naval shirt
@@ -8537,12 +8210,6 @@ hardy gout tubers
 farming manual
 sailing book
 ghost buster 500
-ghost buster 500
-ghost buster 500
-ghost buster 500
-ghost buster 500
-ghost buster 500
-ghost buster 500
 white destabiliser
 red destabiliser
 blue destabiliser
@@ -8583,9 +8250,6 @@ copper longtail
 cerulean twitch
 golden warbler
 tropical wagtail
-butterfly
-butterfly
-butterfly
 butterfly
 giant eagle
 rabbit
@@ -8764,9 +8428,6 @@ noted black salamander
 noted swamp lizard
 spirit flakes
 spirit flakes
-eagle feather
-eagle feather
-eagle feather
 eagle feather
 eagle cape
 fake beak
@@ -9044,12 +8705,6 @@ minnow
 minnow
 noxifer seed
 golpar seed
-noxifer seed
-golpar seed
-noxifer seed
-golpar seed
-noxifer seed
-golpar seed
 keris
 keris(p)
 keris(p+)
@@ -9239,16 +8894,10 @@ empty light orb
 cave goblin wire
 noted cave goblin wire
 cog
-cog
-fuse
 fuse
 meter
-meter
-capacitor
 capacitor
 lever
-lever
-powerbox
 powerbox
 perfect shell
 perfect snail shell
@@ -10654,7 +10303,6 @@ noted serpentine helm (uncharged)
 serpentine helm
 magic fang
 noted magic fang
-zulrah's scales
 ohn's diary
 jar of swamp
 noted jar of swamp
@@ -10914,13 +10562,11 @@ tanzanite mutagen
 magma mutagen
 ring of the gods (i)
 mask of balance
-platinum token
 rotten egg
 tiger toy
 lion toy
 snow leopard toy
 amur leopard toy
-amethyst javelin tips
 music cape
 music cape(t)
 music hood
@@ -10988,7 +10634,6 @@ gravedigger boots
 gravedigger gloves
 anti-panties
 bank key
-blood money
 blood money
 blood money
 blood money
@@ -11278,7 +10923,6 @@ clue bottle (elite)
 dragon claws
 gnome child hat
 present
-grape seed
 teleport card
 noted teleport card
 chronicle
@@ -11355,7 +10999,6 @@ ring of suffering
 noted ring of suffering
 amulet of torture
 noted amulet of torture
-monkey
 nieve
 elysian spirit shield
 charged onyx
@@ -11365,14 +11008,6 @@ bronze key
 combat scarred key
 combat scratched key
 combat damaged key
-bronze javelin tips
-iron javelin tips
-steel javelin tips
-mithril javelin tips
-adamant javelin tips
-rune javelin tips
-dragon javelin tips
-javelin shaft
 light frame
 noted light frame
 heavy frame
@@ -11775,10 +11410,6 @@ elemental rune pack
 adamant arrow pack
 bloody key
 survival token
-survival token
-survival token
-survival token
-survival token
 stash units (easy)
 stash units (medium)
 stash units (hard)
@@ -11791,7 +11422,6 @@ reward casket (elite)
 reward casket (hard)
 reward casket (medium)
 reward casket (easy)
-amulet of glory
 stale baguette
 noted stale baguette
 bank filler
@@ -11848,19 +11478,6 @@ ring of suffering (ri)
 giant squirrel
 tangleroot
 rocky
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
-rift guardian
 rift guardian
 phoenix
 bruma root
@@ -11985,13 +11602,10 @@ houndmaster's diary
 dark journal
 grimy noxifer
 noxifer
-noxifer seed
 grimy golpar
 golpar
-golpar seed
 grimy buchu leaf
 buchu leaf
-buchu seed
 stinkhorn mushroom
 endarkened juice
 cicely
@@ -12074,7 +11688,6 @@ overload (-)(4)
 overload (1)
 overload (2)
 overload (3)
-overload (4)
 overload (+)(1)
 overload (+)(2)
 overload (+)(3)
@@ -12315,7 +11928,6 @@ superior mining gloves
 amethyst
 noted amethyst
 amethyst arrowtips
-amethyst javelin tips
 hand fan
 minnow
 rock golem
@@ -12355,10 +11967,6 @@ mahogany seed
 mahogany seed
 mahogany seed
 mahogany seed
-seaweed spore
-seaweed spore
-seaweed spore
-seaweed spore
 giant seaweed
 noted giant seaweed
 fossil island wyvern
@@ -12649,7 +12257,6 @@ super antifire potion(2)
 noted super antifire potion(2)
 super antifire potion(1)
 noted super antifire potion(1)
-rift guardian
 vorki
 super antifire mix(2)
 noted super antifire mix(2)
@@ -12743,21 +12350,6 @@ adamant kiteshield
 adamant kiteshield
 adamant kiteshield
 adamant kiteshield
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
-adamant heraldic helm
 adamant heraldic helm
 useful rock
 maple bird house
@@ -12889,8 +12481,6 @@ mysterious crushed meat
 vial of blood
 unfinished blood potion
 blood potion
-unfinished potion
-potion
 old diary
 flaygian's notes
 chain
@@ -12912,7 +12502,6 @@ noted justiciar armour set
 avernic defender (broken)
 cadantine blood potion (unf)
 noted cadantine blood potion (unf)
-vial of blood
 noted vial of blood
 battlemage potion(4)
 noted battlemage potion(4)
@@ -12969,7 +12558,6 @@ noted thammaron's sceptre (u)
 thammaron's sceptre
 amulet of avarice
 noted amulet of avarice
-looting bag
 old man's coffin
 reduced cadava potion
 goat dung
@@ -13019,7 +12607,6 @@ zuriel's robe bottom
 noted zuriel's robe bottom
 empty bucket pack
 noted empty bucket pack
-pet smoke devil
 kq head (tattered)
 stuffed kq head (tattered)
 scroll sack
@@ -13051,7 +12638,6 @@ dragon hasta(p++)
 noted dragon hasta(p++)
 dragon hasta(kp)
 fake dragon hasta(kp)
-ikkle hydra
 ikkle hydra
 wyrm bonemeal
 drake bonemeal
@@ -13414,8 +13000,6 @@ jar of eyes
 noted jar of eyes
 sarachnis cudgel
 noted sarachnis cudgel
-super combat potion(4)
-noted super combat potion(4)
 super combat potion(3)
 noted super combat potion(3)
 super combat potion(2)
@@ -13532,7 +13116,6 @@ crystal seed
 crystal seed
 orb of light
 clue scroll
-explosive potion
 corrupted sceptre
 corrupted axe
 corrupted pickaxe
@@ -14059,11 +13642,6 @@ daeyalt shard
 vampyre
 hallowed crystal shard
 hallowed mark
-hallowed mark
-hallowed mark
-hallowed mark
-hallowed mark
-hallowed mark
 hallowed token
 hallowed grapple
 hallowed focus
@@ -14097,22 +13675,6 @@ noted cooked mystery meat
 pat of not garlic butter
 long rope
 severed leg
-vyre noble blazer
-vyre noble coat tails
-vyre noble vest
-vyre noble pants
-vyre noble corset
-vyre noble skirt
-vyre noble dress top
-vyre noble dress bottom
-vyre noble blazer
-vyre noble coat tails
-vyre noble vest
-vyre noble pants
-vyre noble corset
-vyre noble skirt
-vyre noble dress top
-vyre noble dress bottom
 vyre noble blazer
 vyre noble coat tails
 vyre noble vest
@@ -14163,9 +13725,6 @@ oak bookcase
 teak bookcase
 mahogany bookcase
 wooden wardrobe
-oak wardrobe
-teak wardrobe
-mahogany wardrobe
 wooden dresser
 oak dresser
 teak dresser
@@ -14310,10 +13869,8 @@ castlewars brew(1)
 decorative boots
 decorative full helm
 decorative boots
-decorative full helm
 decorative boots
 decorative boots (l)
-decorative full helm
 decorative full helm (l)
 blue cape
 soul fragment
@@ -14476,7 +14033,6 @@ golden prospector boots
 dark flippers
 big harpoonfish
 stuffed big harpoonfish
-mounted harpoonfish
 raw harpoonfish
 harpoonfish
 crystallised harpoonfish
@@ -14692,7 +14248,6 @@ combat achievements
 corrupted paddlefish
 corrupted escape crystal
 crystal paddlefish
-escape crystal
 crypt key
 ranis' head
 strange spider eggs
@@ -15064,24 +14619,7 @@ banana pizza (cookout)
 burnt banana pizza (cookout)
 skis
 loot key
-shoe
-shoe
-shoe
-shoe
-shoe
 shoe.
-shoe
-shoe
-shoe
-shoe
-shoe
-shoe.
-shoe
-shoe
-shoe
-shoe
-shoe
-shoe
 maoma's med helm (broken)
 maoma's full helm (broken)
 maoma's great helm (broken)
@@ -15157,7 +14695,6 @@ superior calamity breeches (l)
 elite calamity breeches
 elite calamity breeches (l)
 colossal pouch
-colossal pouch
 gold tiara
 noted gold tiara
 abyssal pearls
@@ -15173,7 +14710,6 @@ abyssal red dye
 abyssal needle
 ring of the elements
 noted ring of the elements
-ring of the elements
 guardian's eye
 abyssal lantern
 abyssal lantern (normal logs)
@@ -15229,7 +14765,6 @@ abyssal protector
 eye amulet
 strong cup of tea
 abyssal incantation
-colossal pouch
 intricate pouch
 tarnished locket
 lost bag
@@ -15272,12 +14807,6 @@ odd spectacles
 bottle of 'tonic'
 circlet of water (uncharged)
 circlet of water
-lost bag
-lost bag
-lost bag
-amulet of the eye
-amulet of the eye
-amulet of the eye
 ensouled hellhound head
 noted ensouled hellhound head
 void knight top (l)(or)
@@ -15565,7 +15094,6 @@ broken gingerbread
 very broken gingerbread
 shattered gingerbread
 sack of coal
-snowball
 golden snowball
 light beer
 mulled pine
@@ -15850,21 +15378,7 @@ bounty crate (tier 7)
 bounty crate (tier 8)
 bounty crate (tier 9)
 colourful scarf
-colourful scarf
-colourful scarf
-colourful scarf
-colourful scarf
-colourful scarf
-colourful scarf
-colourful scarf
 rainbow jumper
-colourful jumper
-colourful jumper
-colourful jumper
-colourful jumper
-colourful jumper
-colourful jumper
-colourful jumper
 colourful jumper
 poet's jacket
 love crossbow
@@ -15925,14 +15439,6 @@ crystal felling axe
 crystal felling axe (inactive)
 3rd age felling axe
 noted 3rd age felling axe
-beaver
-beaver
-beaver
-beaver
-beaver
-beaver
-beaver
-beaver
 beaver
 blood ancient sceptre (broken)
 smoke ancient sceptre (broken)
@@ -16197,7 +15703,6 @@ twitcher's gloves
 smoker fuel
 smoker canister
 mulch
-mulch
 packed mulch
 crystal charm
 petal circlet
@@ -16323,14 +15828,6 @@ moonlight antelope
 hunters' sunlight crossbow
 noted hunters' sunlight crossbow
 sunlight antler bolts
-sunlight antler bolts
-sunlight antler bolts
-sunlight antler bolts
-sunlight antler bolts
-moonlight antler bolts
-moonlight antler bolts
-moonlight antler bolts
-moonlight antler bolts
 moonlight antler bolts
 sunlight antler
 noted sunlight antler
@@ -16350,9 +15847,6 @@ dizana's max cape (l)
 tonalztics of ralos (uncharged)
 noted tonalztics of ralos (uncharged)
 tonalztics of ralos
-sunfire splinters
-sunfire splinters
-sunfire splinters
 sunfire splinters
 sunfire rune
 searing page
@@ -16397,10 +15891,6 @@ love letter
 plushy
 blue moon spear
 noted blue moon spear
-atlatl dart
-atlatl dart
-atlatl dart
-atlatl dart
 atlatl dart
 dual macuahuitl
 noted dual macuahuitl
@@ -16454,11 +15944,6 @@ sulphur blades
 noted sulphur blades
 sulphurous essence
 calcified deposit
-calcified moth
-calcified moth
-calcified moth
-calcified moth
-calcified moth
 calcified moth
 not meat
 noted not meat
@@ -16565,7 +16050,6 @@ sunlight moth wing
 salamander claw
 herby tuft
 moonlight moth wing
-antelope hoof shard
 hunters' loot sack (basic)
 hunters' loot sack (adept)
 hunters' loot sack (expert)
@@ -16606,23 +16090,11 @@ hunter's spear
 quetzal feed
 huntsman's kit
 hunter spear tips
-hunter spear tips
-hunter spear tips
-hunter spear tips
-hunter spear tips
 tattered request note
 guild history excerpt
 apatura's note
 apatura's key
 house keys
-house keys
-house keys
-house keys
-house keys
-valuables
-valuables
-valuables
-valuables
 valuables
 blessed bone statuette
 blessed bones
@@ -16641,7 +16113,6 @@ blessed hydra bones
 blessed fayrg bones
 blessed raurg bones
 blessed ourg bones
-dagannoth bones
 sun-kissed bones
 noted sun-kissed bones
 blessed bone shards
@@ -16877,8 +16348,6 @@ extended anti-venom+(1)
 noted extended anti-venom+(1)
 nid
 rax
-dual macuahuitl
-eclipse atlatl
 prince itzla arkan
 emissary hood
 emissary robe top
@@ -17012,10 +16481,6 @@ hueycoatl hide vambraces
 noted hueycoatl hide vambraces
 hueycoatl hide
 noted hueycoatl hide
-huasca seed
-huasca seed
-huasca seed
-huasca seed
 huasca seed
 grimy huasca
 noted grimy huasca
@@ -17332,19 +16797,7 @@ classic imp hood
 teak display
 mahogany display
 gilded display
-cockatrice head
-cockatrice head
-basilisk head
-basilisk head
-kurask head
-abyssal head
 oak display
-teak display
-mahogany display
-mounted bass
-mounted bass
-mounted swordfish
-mounted harpoonfish
 nimbleness charm
 noted nimbleness charm
 stockpiling charm
@@ -17522,8 +16975,6 @@ greenman carving
 noted greenman carving
 greenman statue
 noted greenman statue
-greenman carving
-greenman statue
 ent branch
 greenman mask
 noted greenman mask
@@ -17570,7 +17021,6 @@ old letter
 token
 blueberry muffin
 dom
-agility swing
 agility swing
 blood moon armour set
 noted blood moon armour set
@@ -18949,55 +18399,3 @@ noted facility bottle (empty)
 facility bottle (full)
 noted rum
 noted rum
-marrentill seed
-marrentill seed
-marrentill seed
-marrentill seed
-tarromin seed
-tarromin seed
-tarromin seed
-tarromin seed
-harralander seed
-harralander seed
-harralander seed
-harralander seed
-ranarr seed
-ranarr seed
-ranarr seed
-ranarr seed
-toadflax seed
-toadflax seed
-toadflax seed
-toadflax seed
-irit seed
-irit seed
-irit seed
-irit seed
-avantoe seed
-avantoe seed
-avantoe seed
-avantoe seed
-kwuarm seed
-kwuarm seed
-kwuarm seed
-kwuarm seed
-snapdragon seed
-snapdragon seed
-snapdragon seed
-snapdragon seed
-cadantine seed
-cadantine seed
-cadantine seed
-cadantine seed
-lantadyme seed
-lantadyme seed
-lantadyme seed
-lantadyme seed
-dwarf weed seed
-dwarf weed seed
-dwarf weed seed
-dwarf weed seed
-torstol seed
-torstol seed
-torstol seed
-torstol seed
