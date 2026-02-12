@@ -185,41 +185,36 @@ jobs:
               -RedirectStandardOutput "output.log" `
               -RedirectStandardError "error.log"
 
-          $sw = [System.Diagnostics.StopReview]::StartNew()
-          $lastThrashTime = $null
+          $sw = [System.Diagnostics.Stopwatch]::StartNew()
+          $lastThrashTime = 0
           $thrashingStarted = $false
 
           while (-not $process.HasExited) {
               if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
                   Get-Content "output.log" -ErrorAction SilentlyContinue
                   Get-Content "error.log" -ErrorAction SilentlyContinue
-                  Write-Error "Process timed out after $timeoutSeconds seconds"
+                  Write-Error "Process timed out after $timeoutSeconds seconds during cache warmup"
                   Stop-Process -Id $process.Id -Force
                   exit 1
               }
 
               if (Test-Path "output.log") {
                   $recentLines = Get-Content "output.log" -Tail 10
-
-                  # Check if any recent line contains the thrashing keyword
-                  $currentThrash = $recentLines | Where-Object { $_ -match "cache.*thrashing" }
-
-                  if ($currentThrash) {
+                  if ($recentLines -match "cache.*thrashing") {
                       if (-not $thrashingStarted) {
                           Write-Host "Thrashing detected! Monitoring for it to finish..."
                           $thrashingStarted = $true
                       }
-                      $lastThrashTime = [System.Diagnostics.Stopwatch]::GetTimestamp()
+                      $lastThrashTime = $sw.Elapsed.TotalSeconds
                   }
               }
 
               # If thrashing started, wait for 20 seconds of silence
-              if ($thrashingStarted -and $lastThrashTime -ne $null) {
-                  $secondsSinceLastThrash = ([System.Diagnostics.Stopwatch]::GetTimestamp() - $lastThrashTime) / [System.Diagnostics.Stopwatch]::Frequency
-
+              if ($thrashingStarted) {
+                  $secondsSinceLastThrash = $sw.Elapsed.TotalSeconds - $lastThrashTime
                   if ($secondsSinceLastThrash -ge 20) {
-                      Write-Host "No thrashing detected for 20 seconds. Assuming completion."
-                      Start-Sleep -Seconds 2 # Final buffer
+                      Write-Host "No thrashing detected for 20 seconds. Cache is stable."
+                      Start-Sleep -Seconds 2
                       Stop-Process -Id $process.Id -Force
                       break
                   }
@@ -230,6 +225,9 @@ jobs:
 
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
+
+          # --- LOOP 2: Run the actual ItemFinder dump ---
+          Write-Host "Starting actual ItemFinder dump with warmed cache..."
 
           $process = Start-Process -FilePath "java" `
             -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
@@ -242,7 +240,7 @@ jobs:
             if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
               Get-Content "output.log" -ErrorAction SilentlyContinue
               Get-Content "error.log" -ErrorAction SilentlyContinue
-              Write-Error "ItemFinder timed out after 5 minutes"
+              Write-Error "ItemFinder timed out after $timeoutSeconds seconds"
               Stop-Process -Id $process.Id -Force
               exit 1
             }
