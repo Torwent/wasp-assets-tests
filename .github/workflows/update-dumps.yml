@@ -604,7 +604,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: simba
-          path: ./Simba-Win64.exe
+          path: .
 
       - name: Download NPC Helper files
         uses: actions/download-artifact@v7
