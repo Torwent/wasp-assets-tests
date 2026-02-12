@@ -626,19 +626,25 @@ jobs:
             tools/update_items.simba
           sparse-checkout-cone-mode: false
 
-      - name: Generate new items hash.txt
+      - name: Generate new items files
         shell: bash
         run: |
             #Simba does single thread unzipping and is slow
             unzip -qo items-imgs.zip -d items-imgs
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_items.simba
-            ls
 
-      - name: Upload items/hash.txt
+      - name: Move to staging
+        run: |
+          mkdir -p staging
+          mv Data/hash.txt staging/hash.txt
+          mv items.bin staging/items.bin
+          mv items.zip staging/items.zip
+
+      - name: Upload item files
         uses: actions/upload-artifact@v6
         with:
           name: processed-items
-          path: npcs.zip
+          path: staging/
 
   process-npcs:
     runs-on: windows-latest
