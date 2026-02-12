@@ -288,21 +288,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaItemDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaGearDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Upload Items
         uses: actions/upload-artifact@v6
         with:
@@ -318,21 +322,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaCollisionMapDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaCollisionMapDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Upload Collision Maps
         uses: actions/upload-artifact@v6
         with:
@@ -348,21 +356,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaHeightMapDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaHeightMapDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Upload Height Maps
         uses: actions/upload-artifact@v6
         with:
@@ -378,21 +390,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaMapImageDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaMapImageDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Upload Map Images
         uses: actions/upload-artifact@v6
         with:
@@ -408,21 +424,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaMapImageDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaMapImageDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output -noicons
+
       - name: Upload Map Images
         uses: actions/upload-artifact@v6
         with:
@@ -438,25 +458,30 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaNPCDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaNPCDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Zip NPCs folder
         run: |
             cd cache/output/${{ inputs.cache_version }}/NPCs
             zip -r npcs-helper.zip .
+
       - name: Upload NPCs
         uses: actions/upload-artifact@v6
         with:
@@ -472,21 +497,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaObjectInfoDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaObjectInfoDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Upload Object Info
         uses: actions/upload-artifact@v6
         with:
@@ -502,21 +531,25 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run Simba1400ObjectInfoDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.Simba1400ObjectInfoDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Upload Object Info
         uses: actions/upload-artifact@v6
         with:
@@ -532,25 +565,30 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 21
+
       - name: Download RuneLite artifacts
         uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
+
       - name: Restore OpenRS2 cache
-        uses: actions/cache/restore@v4
+        uses: actions/download-artifact@v7
         with:
+          name: openrs2-cache
           path: cache/input/${{ inputs.cache_version }}
-          key: openrs2-cache-${{ inputs.cache_version }}-
+
       - name: Run SimbaSpriteDumper (java)
         run: |
           mkdir -p cache/output
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaSpriteDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
+
       - name: Zip sprites folder
         run: |
             cd cache/output/${{ inputs.cache_version }}/Sprites
             zip -r sprites.zip .
+
       - name: Upload Sprites
         uses: actions/upload-artifact@v6
         with:
@@ -559,7 +597,7 @@ jobs:
 
   #Processing
   process-npcs:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: [dump-npcs, fetch-simba]
     steps:
       - name: Download Simba
@@ -567,11 +605,13 @@ jobs:
         with:
           name: simba
           path: ./Simba-Win64.exe
+
       - name: Download NPC Helper files
         uses: actions/download-artifact@v7
         with:
           name: npcs-helper
           path: ./npcs-helper.zip
+
       - name: Sparse Checkout tools/update-npcs.simba
         uses: actions/checkout@v5
         with:
@@ -580,6 +620,7 @@ jobs:
           sparse-checkout: |
             tools/update-npcs.simba
           sparse-checkout-cone-mode: false
+
       - name: Generate new npc files
         shell: bash
         run: |
@@ -587,6 +628,7 @@ jobs:
             tree -L 2
             unzip -o npcs-helper.zip -d npcs_helper
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
+
       - name: Upload NPCs
         uses: actions/upload-artifact@v6
         with:
