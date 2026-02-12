@@ -21,32 +21,55 @@ jobs:
   build-runelite:
     runs-on: ubuntu-latest
     steps:
+      - name: Get latest commit hash
+        id: get-hash
+        run: |
+          SHA=$(curl -sL https://api.github.com/repos/Torwent/runelite/commits/main | jq -r '.sha')
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+      - name: Restore JARs Cache
+        id: jar-cache
+        uses: actions/cache@v4
+        with:
+          path: staging/
+          key: runelite-jars-${{ steps.get-hash.outputs.sha }}
+
       - name: Checkout RuneLite repository
+        if: steps.jar-cache.outputs.cache-hit != 'true'
         uses: actions/checkout@v5
         with:
           repository: 'Torwent/runelite'
           ref: 'main'
           path: ./runelite
+
       - name: Set up JDK 21
+        if: steps.jar-cache.outputs.cache-hit != 'true'
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
           cache: gradle
+
       - name: Build RuneLite (cache)
+        if: steps.jar-cache.outputs.cache-hit != 'true'
         run: |
           cd runelite
           ./gradlew --build-cache :cache:assemble -x test -x javadoc -q
+
       - name: Build RuneLite (client)
+        if: steps.jar-cache.outputs.cache-hit != 'true'
         run: |
           cd runelite
           ./gradlew --build-cache :client:assemble -x test -x javadoc -q
           tree -L 12
+
       - name: Copy to staging
+        if: steps.jar-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p staging
           find runelite -name "cache-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
           find runelite -name "client-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v6
         with:
@@ -112,6 +135,7 @@ jobs:
           echo "Download URL (64-bit): $DOWNLOAD_URL"
           curl -L -o download.zip "$DOWNLOAD_URL"
           unzip -o download.zip -d .
+
       - name: Upload Simba
         uses: actions/upload-artifact@v6
         with:
@@ -424,12 +448,12 @@ jobs:
       - name: Zip NPCs folder
         run: |
             cd cache/output/${{ inputs.cache_version }}/NPCs
-            zip -r npcs.zip .
+            zip -r npcs-helper.zip .
       - name: Upload NPCs
         uses: actions/upload-artifact@v6
         with:
           name: npcs-helper
-          path: cache/output/${{ inputs.cache_version }}/NPCs/npcs.zip
+          path: cache/output/${{ inputs.cache_version }}/NPCs/npcs-helper.zip
 
   dump-object:
     runs-on: ubuntu-latest
@@ -535,11 +559,11 @@ jobs:
         with:
           name: simba
           path: ./Simba-Win64.exe
-      - name: Download NPC files
+      - name: Download NPC Helper files
         uses: actions/download-artifact@v7
         with:
           name: npcs-helper
-          path: ./npcs.zip
+          path: ./npcs-helper.zip
       - name: Sparse Checkout tools/update-npcs.simba
         uses: actions/checkout@v5
         with:
@@ -552,8 +576,8 @@ jobs:
         shell: bash
         run: |
             # Simba unzipping is slow because it doesn't use multiple threads
-            unzip -o ./npcs.zip -d ./npcs_helper
-            rm ./npcs.zip
+            ls
+            unzip -o ./npcs-helper.zip -d ./npcs_helper
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
       - name: Upload NPCs
         uses: actions/upload-artifact@v6
