@@ -166,27 +166,11 @@ jobs:
           name: runelite-jars
           path: runelite-jars
 
-      - name: Restore OpenRS2 cache
-        uses: actions/download-artifact@v7
-        with:
-          name: openrs2-cache
-          path: .
-
       - name: Copy preferences.dat
         run: |
           $runeliteCacheDir = "$env:USERPROFILE\.runelite\jagexcache\oldschool\LIVE"
           New-Item -ItemType Directory -Force -Path $runeliteCacheDir | Out-Null
           Copy-Item -Recurse -Force "tools/preferences/*.dat" $runeliteCacheDir
-
-      - name: Copy cache
-        run: |
-          ls ./cache
-          $sourcePath = "./cache/*"
-          $jagexCacheDir = "$env:USERPROFILE\jagexcache\oldschool\LIVE"
-          $runeliteCacheDir = "$env:USERPROFILE\.runelite\jagexcache\oldschool\LIVE"
-          New-Item -ItemType Directory -Force -Path $jagexCacheDir, $runeliteCacheDir | Out-Null
-          Copy-Item -Recurse -Force $sourcePath $jagexCacheDir
-          Move-Item -Force $sourcePath $runeliteCacheDir
 
       - name: Run RuneLite
         run: |
@@ -194,6 +178,58 @@ jobs:
           $jar = Get-ChildItem runelite-jars -Filter "client-*-SNAPSHOT-shaded.jar" | Select-Object -First 1
           if (-not $jar) { Write-Error "Shaded jar not found"; exit 1 }
           Write-Host $jar.Name
+
+          $process = Start-Process -FilePath "java" `
+              -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
+              -NoNewWindow -PassThru `
+              -RedirectStandardOutput "output.log" `
+              -RedirectStandardError "error.log"
+
+          $sw = [System.Diagnostics.StopReview]::StartNew()
+          $lastThrashTime = $null
+          $thrashingStarted = $false
+
+          while (-not $process.HasExited) {
+              if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
+                  Get-Content "output.log" -ErrorAction SilentlyContinue
+                  Get-Content "error.log" -ErrorAction SilentlyContinue
+                  Write-Error "Process timed out after $timeoutSeconds seconds"
+                  Stop-Process -Id $process.Id -Force
+                  exit 1
+              }
+
+              if (Test-Path "output.log") {
+                  $recentLines = Get-Content "output.log" -Tail 10
+
+                  # Check if any recent line contains the thrashing keyword
+                  $currentThrash = $recentLines | Where-Object { $_ -match "cache.*thrashing" }
+
+                  if ($currentThrash) {
+                      if (-not $thrashingStarted) {
+                          Write-Host "Thrashing detected! Monitoring for it to finish..."
+                          $thrashingStarted = $true
+                      }
+                      $lastThrashTime = [System.Diagnostics.Stopwatch]::GetTimestamp()
+                  }
+              }
+
+              # If thrashing started, wait for 20 seconds of silence
+              if ($thrashingStarted -and $lastThrashTime -ne $null) {
+                  $secondsSinceLastThrash = ([System.Diagnostics.Stopwatch]::GetTimestamp() - $lastThrashTime) / [System.Diagnostics.Stopwatch]::Frequency
+
+                  if ($secondsSinceLastThrash -ge 20) {
+                      Write-Host "No thrashing detected for 20 seconds. Assuming completion."
+                      Start-Sleep -Seconds 2 # Final buffer
+                      Stop-Process -Id $process.Id -Force
+                      break
+                  }
+              }
+
+              Start-Sleep -Seconds 2
+          }
+
+          Get-Content "output.log" -ErrorAction SilentlyContinue
+          Get-Content "error.log" -ErrorAction SilentlyContinue
 
           $process = Start-Process -FilePath "java" `
             -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
