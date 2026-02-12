@@ -597,7 +597,7 @@ jobs:
 
   #Processing
   process-npcs:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [dump-npcs, fetch-simba]
     steps:
       - name: Download Simba
@@ -610,7 +610,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: npcs-helper
-          path: ./npcs-helper.zip
+          path: .
 
       - name: Sparse Checkout tools/update-npcs.simba
         uses: actions/checkout@v5
