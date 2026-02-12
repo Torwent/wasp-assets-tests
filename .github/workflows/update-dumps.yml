@@ -97,7 +97,7 @@ jobs:
         run: |
           mkdir -p cache/input/${{ inputs.cache_version }}
           curl -L -o disk.zip https://archive.openrs2.org/caches/runescape/${{ inputs.cache_version }}/disk.zip
-          unzip -o disk.zip -d cache/input/${{ inputs.cache_version }}
+          unzip -qo disk.zip -d cache/input/${{ inputs.cache_version }}
           rm disk.zip
 
       - name: Upload OpenRS2 Artifact
@@ -134,7 +134,7 @@ jobs:
 
           echo "Download URL (64-bit): $DOWNLOAD_URL"
           curl -L -o download.zip "$DOWNLOAD_URL"
-          unzip -o download.zip -d .
+          unzip -qo download.zip -d .
 
       - name: Upload Simba
         uses: actions/upload-artifact@v6
@@ -630,7 +630,7 @@ jobs:
         shell: bash
         run: |
             #Simba does single thread unzipping and is slow
-            unzip -o items-imgs.zip -d items-imgs
+            unzip -qo items-imgs.zip -d items-imgs
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_items.simba
             ls
 
@@ -669,7 +669,7 @@ jobs:
         shell: bash
         run: |
             #Simba does single thread unzipping and is slow
-            unzip -o npcs-helper.zip -d npcs_helper
+            unzip -qo npcs-helper.zip -d npcs_helper
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
 
       - name: Upload NPCs
