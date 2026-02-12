@@ -204,9 +204,9 @@ jobs:
           $sw = [System.Diagnostics.Stopwatch]::StartNew()
           while (-not $process.HasExited) {
             if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
-              Write-Error "ItemFinder timed out after 10 minutes"
               Get-Content "output.log" -ErrorAction SilentlyContinue
               Get-Content "error.log" -ErrorAction SilentlyContinue
+              Write-Error "ItemFinder timed out after 10 minutes"
               Stop-Process -Id $process.Id -Force
               exit 1
             }
