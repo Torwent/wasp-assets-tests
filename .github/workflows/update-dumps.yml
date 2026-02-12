@@ -623,7 +623,7 @@ jobs:
           path: ./wasp-assets
           fetch-depth: 1
           sparse-checkout: |
-            tools/update-items.simba
+            tools/update_items.simba
           sparse-checkout-cone-mode: false
 
       - name: Generate new items hash.txt
