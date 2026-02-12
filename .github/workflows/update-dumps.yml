@@ -170,7 +170,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: openrs2-cache
-          path: ./cache/
+          path: .
 
       - name: Copy preferences.dat
         run: |
@@ -206,7 +206,7 @@ jobs:
             if ($sw.Elapsed.TotalSeconds -gt $timeoutSeconds) {
               Get-Content "output.log" -ErrorAction SilentlyContinue
               Get-Content "error.log" -ErrorAction SilentlyContinue
-              Write-Error "ItemFinder timed out after 10 minutes"
+              Write-Error "ItemFinder timed out after 5 minutes"
               Stop-Process -Id $process.Id -Force
               exit 1
             }
