@@ -174,7 +174,7 @@ jobs:
 
       - name: Run RuneLite
         run: |
-          $timeoutSeconds = 300
+          $timeoutSeconds = 150
           $jar = Get-ChildItem runelite-jars -Filter "client-*-SNAPSHOT-shaded.jar" | Select-Object -First 1
           if (-not $jar) { Write-Error "Shaded jar not found"; exit 1 }
           Write-Host $jar.Name
@@ -199,25 +199,18 @@ jobs:
               }
 
               if (Test-Path "output.log") {
-                  $recentLines = Get-Content "output.log" -Tail 10
-                  if ($recentLines -match "cache.*thrashing") {
-                      if (-not $thrashingStarted) {
-                          Write-Host "Thrashing detected! Monitoring for it to finish..."
-                          $thrashingStarted = $true
-                      }
+                  $lines = Get-Content "output.log" -Tail 30
+                  if ($lines -match "cache.*thrashing") {
+                      $thrashingStarted = $true
                       $lastThrashTime = $sw.Elapsed.TotalSeconds
                   }
               }
 
-              # If thrashing started, wait for 20 seconds of silence
-              if ($thrashingStarted) {
-                  $secondsSinceLastThrash = $sw.Elapsed.TotalSeconds - $lastThrashTime
-                  if ($secondsSinceLastThrash -ge 20) {
-                      Write-Host "No thrashing detected for 20 seconds. Cache is stable."
-                      Start-Sleep -Seconds 2
-                      Stop-Process -Id $process.Id -Force
-                      break
-                  }
+              # Thrashing and it's been silent for 20 seconds
+              if ($thrashingStarted -and ($sw.Elapsed.TotalSeconds - $lastThrashTime -gt 20)) {
+                  Write-Host "Thrashing stabilized. Killing process to reset Plugin..."
+                  Stop-Process -Id $process.Id -Force
+                  break
               }
 
               Start-Sleep -Seconds 2
@@ -226,7 +219,6 @@ jobs:
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
 
-          # --- LOOP 2: Run the actual ItemFinder dump ---
           Write-Host "Starting actual ItemFinder dump with warmed cache..."
 
           $process = Start-Process -FilePath "java" `
