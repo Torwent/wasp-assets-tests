@@ -17,6 +17,7 @@ on:
 run-name: Update Dumps for OpenRS2 cache version ${{ inputs.cache_version }}
 
 jobs:
+  #Setup
   build-runelite:
     runs-on: ubuntu-latest
     steps:
@@ -26,14 +27,12 @@ jobs:
           repository: 'Torwent/runelite'
           ref: 'main'
           path: ./runelite
-
       - name: Set up JDK 21
         uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
           cache: gradle
-
       - name: Build RuneLite (cache)
         run: |
           cd runelite
@@ -49,7 +48,7 @@ jobs:
           find runelite -name "cache-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
           find runelite -name "client-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: runelite-jars
           path: staging/
@@ -77,6 +76,42 @@ jobs:
     outputs:
       cache-key: openrs2-cache-${{ inputs.cache_version }}-
 
+  fetch-simba:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Simba 2 download URL
+        id: simba-url
+        run: |
+          URL_CONTENT=$(curl -sL https://raw.githubusercontent.com/Villavu/Simba-Build-Archive/refs/heads/main/latest.win64 | tr -d '\r\n')
+          BASE_URL=$(echo "$URL_CONTENT" | sed 's/Win64\.zip?raw=true$//')
+          echo "Base URL: $BASE_URL"
+          echo "baseUrl=$BASE_URL" >> $GITHUB_OUTPUT
+          mkdir -p ./Includes
+
+      - name: Restore/Simba cache
+        uses: actions/cache@v4
+        id: simba-cache
+        with:
+          path: ./Simba-Win64.exe
+          key: simba-cache-${{ steps.simba-url.outputs.baseUrl }}
+          enableCrossOsArchive: true
+
+      - name: Download Simba 2.0 (64-bit)
+        if: steps.simba-cache.outputs.cache-hit != 'true'
+        run: |
+          BASE_URL="${{ steps.simba-url.outputs.baseUrl }}"
+          DOWNLOAD_URL="${BASE_URL}Win64.zip?raw=true"
+
+          echo "Download URL (64-bit): $DOWNLOAD_URL"
+          curl -L -o download.zip "$DOWNLOAD_URL"
+          unzip -o download.zip -d .
+      - name: Upload Simba
+        uses: actions/upload-artifact@v6
+        with:
+          name: simba
+          path: ./Simba-Win64.exe
+
+  #Dump
   dump-itemfinder:
     runs-on: windows-latest
     needs: build-runelite
@@ -89,7 +124,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: runelite-jars
@@ -168,7 +203,7 @@ jobs:
           Get-Content "output.log" -ErrorAction SilentlyContinue
           Get-Content "error.log" -ErrorAction SilentlyContinue
       - name: Upload ItemFinder
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: itemfinder
           path: itemfinder
@@ -183,7 +218,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -200,7 +235,7 @@ jobs:
           cd cache/output/${{ inputs.cache_version }}/items
           zip -r items.zip ./*.json
       - name: Upload Items
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: items
           path: cache/output/${{ inputs.cache_version }}/items/items.zip
@@ -215,7 +250,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -230,7 +265,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaGearDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Items
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: gear
           path: cache/output/${{ inputs.cache_version }}/gear.json
@@ -245,7 +280,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -260,7 +295,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaCollisionMapDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Collision Maps
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: collision
           path: cache/output/${{ inputs.cache_version }}
@@ -275,7 +310,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -290,7 +325,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaHeightMapDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Height Maps
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: heightmap
           path: cache/output/${{ inputs.cache_version }}/heightmap.zip
@@ -305,7 +340,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -320,7 +355,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaMapImageDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Map Images
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: map
           path: cache/output/${{ inputs.cache_version }}
@@ -335,7 +370,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -350,7 +385,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaMapImageDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output -noicons
       - name: Upload Map Images
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: map-noicons
           path: cache/output/${{ inputs.cache_version }}
@@ -365,7 +400,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -384,9 +419,9 @@ jobs:
             cd cache/output/${{ inputs.cache_version }}/NPCs
             zip -r npcs.zip .
       - name: Upload NPCs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: npcs
+          name: npcs-helper
           path: cache/output/${{ inputs.cache_version }}/NPCs/npcs.zip
 
   dump-object:
@@ -399,7 +434,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -414,7 +449,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.SimbaObjectInfoDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Object Info
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: objects
           path: cache/output/${{ inputs.cache_version }}
@@ -429,7 +464,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -444,7 +479,7 @@ jobs:
           java -cp staging/cache-*-SNAPSHOT-shaded.jar net.runelite.cache.Simba1400ObjectInfoDumper \
             --cachedir cache/input --cachename ${{ inputs.cache_version }} --outputdir cache/output
       - name: Upload Object Info
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: objects1400
           path: cache/output/${{ inputs.cache_version }}
@@ -459,7 +494,7 @@ jobs:
           distribution: 'temurin'
           java-version: 21
       - name: Download RuneLite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: runelite-jars
           path: staging
@@ -478,14 +513,51 @@ jobs:
             cd cache/output/${{ inputs.cache_version }}/Sprites
             zip -r sprites.zip .
       - name: Upload Sprites
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: sprites
           path: cache/output/${{ inputs.cache_version }}/Sprites/sprites.zip
 
+  #Processing
+  process-npcs:
+    runs-on: windows-latest
+    needs: [dump-npcs, fetch-simba]
+    steps:
+      - name: Download Simba
+        uses: actions/download-artifact@v7
+        with:
+          name: simba
+          path: ./Simba-Win64.exe
+      - name: Download NPC files
+        uses: actions/download-artifact@v7
+        with:
+          name: npcs-helper
+          path: ./npcs-helper.zip
+      - name: Sparse Checkout tools/update-npcs.simba
+        uses: actions/checkout@v5
+        with:
+          path: ./wasp-assets
+          fetch-depth: 1
+          sparse-checkout: |
+            tools/update-npcs.simba
+          sparse-checkout-cone-mode: false
+      - name: Generate new npc files
+        shell: bash
+        run: |
+            # Simba unzipping is slow because it doesn't use multiple threads
+            unzip -o ./npcs_helper.zip -d ./npcs_helper
+            ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
+      - name: Upload NPCs
+        uses: actions/upload-artifact@v6
+        with:
+          name: npcs
+          path: cache/output/${{ inputs.cache_version }}/NPCs/npcs.zip
+
+
+  #Commit
   commit-results:
     runs-on: ubuntu-latest
-    needs: [dump-items, dump-gear, dump-collisionmap, dump-heightmap, dump-map, dump-mapnoicons, dump-npcs, dump-object, dump-object1400, dump-sprites, dump-itemfinder]
+    needs: [dump-items, dump-gear, dump-collisionmap, dump-heightmap, dump-map, dump-mapnoicons, dump-npcs, process-npcs, dump-object, dump-object1400, dump-sprites, dump-itemfinder]
     if: always()
     steps:
       - name: Checkout repository
@@ -495,7 +567,7 @@ jobs:
           git config --global user.name "Wasp Bot"
           git config --global user.email "waspbot@waspscripts.com"
       - name: Download all dump artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
       - name: Organize dump outputs and stage changes
@@ -507,7 +579,8 @@ jobs:
             ["artifacts/itemfinder/item.txt"]="finders/items/data/item.txt"
             ["artifacts/items/items.zip"]="jsons/item-definitions.zip"
             ["artifacts/gear/gear.json"]="jsons/gear.json"
-            ["artifacts/npcs/npcs.zip"]="map/zips/npcs_helper.zip"
+            ["artifacts/npcs/npcs.zip"]="map/zips/npcs.zip"
+            ["artifacts/npcs_helper/npcs.zip"]="map/zips/npcs_helper.zip"
             ["artifacts/map/map.zip"]="map/zips/map.zip"
             ["artifacts/map-noicons/map-noicons.zip"]="map/zips/map-noicons.zip"
             ["artifacts/objects/objects.zip"]="map/objects.zip"
