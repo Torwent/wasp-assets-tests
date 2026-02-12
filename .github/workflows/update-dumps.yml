@@ -67,8 +67,8 @@ jobs:
         if: steps.jar-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p staging
-          find runelite -name "cache-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
-          find runelite -name "client-*-SNAPSHOT-shaded.jar" -exec cp {} staging/ \;
+          find runelite -name "cache-*-SNAPSHOT-shaded.jar" -exec mv {} staging/ \;
+          find runelite -name "client-*-SNAPSHOT-shaded.jar" -exec mv {} staging/ \;
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v6
@@ -98,7 +98,6 @@ jobs:
           mkdir -p cache/input/${{ inputs.cache_version }}
           curl -L -o disk.zip https://archive.openrs2.org/caches/runescape/${{ inputs.cache_version }}/disk.zip
           unzip -qo disk.zip -d cache/input/${{ inputs.cache_version }}
-          rm disk.zip
 
       - name: Upload OpenRS2 Artifact
         uses: actions/upload-artifact@v4
@@ -167,11 +166,26 @@ jobs:
           name: runelite-jars
           path: runelite-jars
 
+      - name: Restore OpenRS2 cache
+        uses: actions/download-artifact@v7
+        with:
+          name: openrs2-cache
+          path: openrs2-${{ inputs.cache_version }}/cache/
+
       - name: Copy preferences.dat
         run: |
           $runeliteCacheDir = "$env:USERPROFILE\.runelite\jagexcache\oldschool\LIVE"
           New-Item -ItemType Directory -Force -Path $runeliteCacheDir | Out-Null
           Copy-Item -Recurse -Force "tools/preferences/*.dat" $runeliteCacheDir
+
+      - name: Copy cache
+        run: |
+          $sourcePath = "openrs2-${{ inputs.cache_version }}/cache/*"
+          $jagexCacheDir = "$env:USERPROFILE\jagexcache\oldschool\LIVE"
+          $runeliteCacheDir = "$env:USERPROFILE\.runelite\jagexcache\oldschool\LIVE"
+          New-Item -ItemType Directory -Force -Path $jagexCacheDir, $runeliteCacheDir | Out-Null
+          Copy-Item -Recurse -Force $sourcePath $jagexCacheDir
+          Move-Item -Force $sourcePath $runeliteCacheDir
 
       - name: Run RuneLite
         run: |
