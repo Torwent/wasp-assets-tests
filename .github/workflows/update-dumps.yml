@@ -218,7 +218,7 @@ jobs:
                   $lastCombinedSize = $currentSize
               }
 
-              # Exit condition: If we saw thrashing, wait for 20s of no NEW thrashing logs
+              # If we saw thrashing, wait for 20s of no NEW thrashing logs
               if ($thrashingStarted) {
                   $silence = $sw.Elapsed.TotalSeconds - $lastActivityTime
                   if ($silence -gt 20) {
@@ -230,11 +230,12 @@ jobs:
               Start-Sleep -Seconds 2
           }
 
-          # --- CLEANUP ---
+          Write-Host "Warm Up Summary:"
+          Get-Content "output.log" -ErrorAction SilentlyContinue
           Remove-Item "output.log", "error.log" -ErrorAction SilentlyContinue
 
-          # --- LOOP 2: ACTUAL DUMP ---
-          Write-Host "Starting Loop 2 (Actual Data Dump)..."
+          # --- LOOP 2: ITEMFINDER DUMP ---
+          Write-Host "Starting Loop 2 (ItemFinder Dump)..."
           $process = Start-Process -FilePath "java" `
             -ArgumentList "-Dfile.encoding=UTF8 -jar", $jar.FullName `
             -NoNewWindow -PassThru `
@@ -259,6 +260,9 @@ jobs:
             }
             Start-Sleep -Seconds 2
           }
+
+          Write-Host "Final Log Summary:"
+          Get-Content "output.log" -ErrorAction SilentlyContinue
 
       - name: Upload ItemFinder
         uses: actions/upload-artifact@v6
