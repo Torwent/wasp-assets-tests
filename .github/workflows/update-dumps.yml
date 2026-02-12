@@ -190,7 +190,7 @@ jobs:
 
       - name: Run RuneLite
         run: |
-          $timeoutSeconds = 600
+          $timeoutSeconds = 300
           $jar = Get-ChildItem runelite-jars -Filter "client-*-SNAPSHOT-shaded.jar" | Select-Object -First 1
           if (-not $jar) { Write-Error "Shaded jar not found"; exit 1 }
           Write-Host $jar.Name
