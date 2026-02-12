@@ -584,6 +584,7 @@ jobs:
         shell: bash
         run: |
             # Simba unzipping is slow because it doesn't use multiple threads
+            tree -L 2
             unzip -o npcs-helper.zip -d npcs_helper
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
       - name: Upload NPCs
@@ -619,7 +620,7 @@ jobs:
             ["artifacts/items/items.zip"]="jsons/item-definitions.zip"
             ["artifacts/gear/gear.json"]="jsons/gear.json"
             ["artifacts/npcs/npcs.zip"]="map/zips/npcs.zip"
-            ["artifacts/npcs_helper/npcs.zip"]="map/zips/npcs_helper.zip"
+            ["artifacts/npcs_helper/npcs-helper.zip"]="map/zips/npcs_helper.zip"
             ["artifacts/map/map.zip"]="map/zips/map.zip"
             ["artifacts/map-noicons/map-noicons.zip"]="map/zips/map-noicons.zip"
             ["artifacts/objects/objects.zip"]="map/objects.zip"
