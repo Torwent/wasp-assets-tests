@@ -602,7 +602,7 @@ jobs:
 
   #Processing
   process-items:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [dump-itemfinder, fetch-simba]
     steps:
       - name: Download Simba
@@ -632,7 +632,7 @@ jobs:
             #Simba does single thread unzipping and is slow
             unzip -o items-imgs.zip -d items-imgs
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_items.simba
-            tree -L 2
+            ls
 
       - name: Upload items/hash.txt
         uses: actions/upload-artifact@v6
