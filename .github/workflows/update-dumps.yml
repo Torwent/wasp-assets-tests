@@ -153,7 +153,7 @@ jobs:
           path: ./wasp-assets
           fetch-depth: 1
           sparse-checkout: |
-            tools/preferences
+            tools/preferences/*.dat
           sparse-checkout-cone-mode: false
 
       - name: Setup Java 21
