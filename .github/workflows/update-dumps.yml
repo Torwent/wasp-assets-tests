@@ -625,7 +625,6 @@ jobs:
         shell: bash
         run: |
             # Simba unzipping is slow because it doesn't use multiple threads
-            tree -L 2
             unzip -o npcs-helper.zip -d npcs_helper
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
 
@@ -644,14 +643,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
+
       - name: Set up Git
         run: |
           git config --global user.name "Wasp Bot"
           git config --global user.email "waspbot@waspscripts.com"
+
       - name: Download all dump artifacts
         uses: actions/download-artifact@v7
         with:
           path: artifacts
+
       - name: Organize dump outputs and stage changes
         run: |
           sudo apt install -y zipcmp
