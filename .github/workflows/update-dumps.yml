@@ -170,7 +170,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: openrs2-cache
-          path: openrs2-${{ inputs.cache_version }}/cache/
+          path: ./cache/
 
       - name: Copy preferences.dat
         run: |
@@ -180,7 +180,8 @@ jobs:
 
       - name: Copy cache
         run: |
-          $sourcePath = "openrs2-${{ inputs.cache_version }}/cache/*"
+          ls ./cache
+          $sourcePath = "./cache/*"
           $jagexCacheDir = "$env:USERPROFILE\jagexcache\oldschool\LIVE"
           $runeliteCacheDir = "$env:USERPROFILE\.runelite\jagexcache\oldschool\LIVE"
           New-Item -ItemType Directory -Force -Path $jagexCacheDir, $runeliteCacheDir | Out-Null
