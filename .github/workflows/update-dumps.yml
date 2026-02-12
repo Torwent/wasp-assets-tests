@@ -60,6 +60,7 @@ jobs:
         run: |
           mkdir -p cache/input/${{ inputs.cache_version }}
           curl -L -o cache/input/${{ inputs.cache_version }}/${{ inputs.cache_version }}.json https://archive.openrs2.org/caches/runescape/${{ inputs.cache_version }}/keys.json
+
       - name: Restore/OpenRS2 cache
         uses: actions/cache@v4
         id: openrs2-cache
@@ -67,14 +68,20 @@ jobs:
           path: cache/input/${{ inputs.cache_version }}
           key: openrs2-cache-${{ inputs.cache_version }}-${{ hashFiles('**/*.json') }}
           enableCrossOsArchive: true
+
       - name: Download OpenRS2 (miss)
         if: steps.openrs2-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p cache/input/${{ inputs.cache_version }}
           curl -L -o disk.zip https://archive.openrs2.org/caches/runescape/${{ inputs.cache_version }}/disk.zip
           unzip -o disk.zip -d cache/input/${{ inputs.cache_version }}
-    outputs:
-      cache-key: openrs2-cache-${{ inputs.cache_version }}-
+          rm disk.zip
+
+      - name: Upload OpenRS2 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openrs2-cache-${{ inputs.cache_version }}
+          path: cache/input/${{ inputs.cache_version }}
 
   fetch-simba:
     runs-on: ubuntu-latest
@@ -532,7 +539,7 @@ jobs:
         uses: actions/download-artifact@v7
         with:
           name: npcs-helper
-          path: ./npcs-helper.zip
+          path: ./npcs.zip
       - name: Sparse Checkout tools/update-npcs.simba
         uses: actions/checkout@v5
         with:
@@ -545,7 +552,8 @@ jobs:
         shell: bash
         run: |
             # Simba unzipping is slow because it doesn't use multiple threads
-            unzip -o ./npcs_helper.zip -d ./npcs_helper
+            unzip -o ./npcs.zip -d ./npcs_helper
+            rm ./npcs.zip
             ./Simba-Win64.exe --extractopenssl --path=./ --reset=false --cleanup=false --run ./wasp-assets/tools/update_npcs.simba
       - name: Upload NPCs
         uses: actions/upload-artifact@v6
